@@ -35,7 +35,7 @@ def read_config(path):
     try:
         with open(path, 'r') as config:
             try:
-                yield yaml.load(config)
+                yield yaml.safe_load(config)
             except yaml.YAMLError as exc:
                 print(exc)
     except IOError as io_err:
