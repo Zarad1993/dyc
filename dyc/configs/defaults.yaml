@@ -1,0 +1,36 @@
+include: []
+exclude: []
+formats:
+  - 
+    extension: 'py'
+    top:
+      enabled: true
+      open: '"""'
+      close: '"""'
+      break_after_open: true
+      break_before_close: true
+    method:
+      ignore:
+        - __init__
+      keywords: ['def']
+      enabled: true
+      indent: '4 spaces'
+      indent_content: false
+      open: '"""'
+      close: '"""'
+      break_after_open: true
+      break_after_docstring: true
+      break_before_close: true
+      words_per_line: 10
+      within_scope: true
+    arguments:
+      title: 'Parameters'
+      underline: true
+      add_type: true
+      inline: false
+      prefix: ''
+      ignore:
+        - cls
+        - self
+    class:
+      keywords: ['class']
