@@ -14,7 +14,7 @@ setup(
     url="https://github.com/Zarad1993/dyc",
     install_requires=[
         "click==7.0",
-        "PyYAML==3.12"
+        'pyyaml>=4.2b1'
         ],
     entry_points = {
         "console_scripts": ["dyc=dyc.dyc:main"],
