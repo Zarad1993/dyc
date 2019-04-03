@@ -25,22 +25,6 @@ def get_leading_whitespace(s):
             break 
     return ''.join(accumulator) 
 
-def read_config(path):
-    """
-    None
-    Parameters
-    ----------
-    None path: None
-    """
-    try:
-        with open(path, 'r') as config:
-            try:
-                yield yaml.safe_load(config)
-            except yaml.YAMLError as exc:
-                print(exc)
-    except IOError as io_err:
-        print('Configuration File missing, using default')
-
 def read_yaml(path):
     """
     Yaml Reader method
@@ -51,7 +35,7 @@ def read_yaml(path):
     try:
         with open(path, 'r') as config:
             try:
-                return yaml.load(config)
+                return yaml.safe_load(config)
             except yaml.YAMLError as exc:
                 return None
     except IOError as io_err:
