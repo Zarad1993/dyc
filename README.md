@@ -1,6 +1,6 @@
 # Document Your Code
 
-<img src="logo.png" alt="logo" width="200"/>
+<img src="https://user-images.githubusercontent.com/18662248/55584780-bdbdfb00-572d-11e9-895b-6484f15bfea2.png" width="300" height="300"/>
 
 DYC is a CLI tool that helps with documenting your source code. Answer `dyc` prompts and it will append docstrings to your code with keeping a consistent pattern of docstrings.
 
