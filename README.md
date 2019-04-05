@@ -23,7 +23,7 @@ $ pip install document-your-code
 
 ## Usage
 
-This is intended to work on all programming languages. Kicking off with Python as a starter (Only defualt formatting added). You can override
+This is intended to work on all programming languages. Kicking off with Python as a starter (Only default formatting added). You can override
 the default settings for python files and extend new formats in `dyc.yaml` at your root project. Refer to [Example](#example) and [Advanced](#advanced)
 
 
@@ -52,7 +52,7 @@ $  dyc diff
 |        `keywords`           |                            The necessary keyword to search for in a line the triggers actions                               | list |
 |        `enabled`            |                                   Determine if formatting is enabled for the extension                                      | bool |
 |         `indent`            |                         Indentation in a method. Limited options ['tab', '2 spaces', '4 spaces']                            | str  |
-|     `indent_content`        |                              Confirm if the content of a docstring has to be indented aswel                                 | bool |
+|     `indent_content`        |                              Confirm if the content of a docstring has to be indented as well                               | bool |
 |          `open`             |                                             Starting opener text of a method                                                | str  |
 |         `close`             | Close text of a method. This could be the same as opened, but not all languages opening and closing docstrings are same     | str  |
 |    `break_after_open`       |                             Do we add a new line after adding the open strings of a method?                                 | bool |

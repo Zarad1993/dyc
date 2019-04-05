@@ -8,6 +8,7 @@ import copy
 import click
 from .configs import Config
 
+
 class ParsedConfig(Config):
     def __init__(self):
         self.plain = copy.deepcopy(self.default)

@@ -4,7 +4,6 @@ Reusable methods throughout DYC
 import os
 import yaml
 import string
-from exceptions import DYCConfigurationSetup
 
 
 def get_leading_whitespace(s): 
@@ -25,6 +24,7 @@ def get_leading_whitespace(s):
             break 
     return ''.join(accumulator) 
 
+
 def read_yaml(path):
     """
     Yaml Reader method
@@ -40,6 +40,7 @@ def read_yaml(path):
                 return None
     except IOError as io_err:
         return None
+
 
 class BlankFormatter(string.Formatter):
     def __init__(self, default=''):
@@ -62,7 +63,7 @@ class BlankFormatter(string.Formatter):
 
 def get_indent(space):
     """
-    Translater of the indent config param to real spaces or
+    Translator of the indent config param to real spaces or
     tabs
     Parameters
     ----------
@@ -76,6 +77,7 @@ def get_indent(space):
         return ''
     else:
         return '    '
+
 
 def get_extension(filename):
     """

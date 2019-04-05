@@ -1,6 +1,7 @@
 import fileinput
 from utils import all_files_generator, get_file_lines
 
+
 class Builder(object):
     details = dict()
 
@@ -86,7 +87,7 @@ class FilesDirector():
         and includes
         Parameters
         ----------
-        list files: list of pregiven files
+        list files: list of pre-given files
         """
         self.set_files_to_read(files=files)
         self.apply_includes()
@@ -102,7 +103,7 @@ class FilesDirector():
         """
         TODO Method for removing files from a file list
         """
-    	pass
+        pass
 
     def set_files_to_read(self, files=[]):
         """
@@ -126,6 +127,7 @@ class FilesDirector():
 
         self.file_list = result
 
+
 class FormatsDirector():
 
     formats = dict()
@@ -136,13 +138,14 @@ class FormatsDirector():
         """
         self.formats = {ext.get('extension'): ext for ext in self.config.get('formats')}
 
+
 class Processor(FilesDirector, FormatsDirector):
     """Subclass process that runs complete lifecycle for DYC"""
     def start(self):
         """
         TODO Method wrapper for starting the process
         """
-    	pass
+        pass
         # self.setup()
         # self.prompts()
         # self.apply()
@@ -163,4 +166,3 @@ class Processor(FilesDirector, FormatsDirector):
         Property that returns all the allowed extensions
         """
         return filter(None, map(lambda fmt: fmt.get('extension'), self.config.get('formats')))
-    

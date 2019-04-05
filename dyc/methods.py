@@ -7,6 +7,7 @@ import click
 from utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
 from base import Builder
 
+
 class MethodBuilder(Builder):
     def __init__(self, filename, config):
         self.filename = filename
@@ -75,8 +76,8 @@ class MethodBuilder(Builder):
 
     def extract_arguments(self, line):
         """
-        Public extract argument method that calls ArgumentDetails class to extract
-        arggs
+        Public extract argument method that calls ArgumentDetails
+        class to extract args
         Parameters
         ----------
         """
@@ -90,7 +91,8 @@ class MethodBuilder(Builder):
         a docstring or not
         Parameters
         ----------
-        MethodInterface result: Is a method interface class that could be subject to be taking a docstring
+        MethodInterface result: Is a method interface class that could be
+        subject to be taking a docstring
         str line: The line of the found method
         """
         returned = False
@@ -111,7 +113,7 @@ class MethodBuilder(Builder):
     def apply(self):
         """
         Over here we are looping over the result of the
-        chosen methods to document and applying tthe changes to the
+        chosen methods to document and applying the changes to the
         files as confirmed
         """
         for method_interface in self._method_interface_gen():
