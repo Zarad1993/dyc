@@ -4,8 +4,10 @@ from .main import DYC
 from diff import Diff
 
 config = click.make_pass_decorator(ParsedConfig, ensure=True)
-# ParsedConfig class wrapping all settings, on every Click command, passed as decorator
+# ParsedConfig class wrapping all settings, on every Click command,
+# passed as decorator
 # Will pass the config as a first argument (Based on the order it is passed)
+
 
 @click.group()
 @config
@@ -18,12 +20,14 @@ def main(config):
     """
     pass
 
+
 @main.command()
 @config
 def start(config):
     """
     This is the entry point of starting DYC for the whole project.
-    When you run `dyc start`. ParsedConfig will wrap all the files list going to loop
+    When you run `dyc start`. ParsedConfig will wrap all the
+    files list going to loop
     over and add missing documentation on.
     """
     dyc = DYC(config.plain)

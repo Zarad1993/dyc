@@ -9,9 +9,9 @@ The file will patch will undergo the process of:
 import os
 import git
 import ntpath
-import linecache
 from utils import get_hunk, get_additions_in_first_hunk
 from base import Processor
+
 
 class DiffParser():
 
@@ -106,7 +106,6 @@ class DiffParser():
 
         return final
 
-
     def __clean(self, patch, diff):
         """Returns a clean dict of a path"""
         result = {}
@@ -155,7 +154,7 @@ class Diff(DiffParser, Processor):
 
     def _uncommitted(self):
         """
-        Private method to return the data for the publich uncommitted
+        Private method to return the data for the publish uncommitted
         property
         """
         return self.parse()

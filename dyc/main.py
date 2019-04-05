@@ -9,6 +9,7 @@ from utils import get_extension
 from methods import MethodBuilder
 from base import Processor
 
+
 class DYC(Processor):
 
     def __init__(self, config, details=None):
