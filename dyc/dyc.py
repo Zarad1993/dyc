@@ -22,14 +22,17 @@ def main(config):
 
 
 @main.command()
+@click.argument('files', nargs=-1, type=click.Path(exists=True), required=False)
 @config
-def start(config):
+def start(config, files):
     """
     This is the entry point of starting DYC for the whole project.
     When you run `dyc start`. ParsedConfig will wrap all the
     files list going to loop
     over and add missing documentation on.
     """
+    if files:
+        config.plain['file_list'] = list(files)
     dyc = DYC(config.plain)
     dyc.prepare()
     dyc.process_methods()
