@@ -9,11 +9,11 @@ from utils import get_extension
 from methods import MethodBuilder
 from base import Processor
 
-
 class DYC(Processor):
 
-    def __init__(self, config, details=None):
+    def __init__(self, config, details=None, placeholders=False):
         self.config = config
+        self.placeholders = placeholders
 
     def process_methods(self, diff_only=False, changes=[]):
         """
@@ -36,7 +36,7 @@ class DYC(Processor):
             fmt = self.formats.get(extension)
             method_cnf = fmt.get('method', {})
             method_cnf['arguments'] = fmt.get('arguments')
-            builder = MethodBuilder(filename, method_cnf)
+            builder = MethodBuilder(filename, method_cnf, placeholders=self.placeholders)
             builder.initialize(change=change)
             builder.prompts()
             builder.apply()

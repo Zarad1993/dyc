@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name="document-your-code",
-    version="0.0.9",
+    version="0.1.0",
     author="Mohammad Albakri",
     author_email="mohammad.albakri93@gmail.com",
     packages=find_packages(),
@@ -15,7 +15,8 @@ setup(
     install_requires=[
         "click==7.0",
         "pyyaml>=4.2b1",
-        "gitpython==2.1.11"
+        "gitpython==2.1.11",
+        "watchdog==0.9.0"
         ],
     entry_points = {
         "console_scripts": ["dyc=dyc.dyc:main"],

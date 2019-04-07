@@ -39,6 +39,13 @@ To run on a Git Diff patch. Run
 $  dyc diff
 ```
 
+
+To have Docstrings prepended on a method while development.
+Run the following command
+```sh
+$ dyc diff --watch
+```
+
 ## Method Docstring Options
 
 *You can also Setup your own customized Docstring Method Formatting in `dyc.yaml` within `formats` key*
@@ -138,6 +145,42 @@ def hello(name):
     """
     return "Hello " + name%
 ```
+
+*Watch* diff flag.
+
+Run in a terminal session where you have project initialized with Git and on unstaged file. _This will not work (YET) on untracked files_
+```sh
+$ dyc diff --watch
+```
+
+Then on a separate session
+```sh
+vim path/to/file
+```
+
+```sh
+## Append or add
+
+def auto_document(foo=False):
+    return foo
+```
+
+Print output
+```sh
+$ git diff path/to/file
+
++
++def auto_document(foo=False):
++    """
++    <docstring>
++    Parameters
++    ----------
++    <type> foo: <arg docstring>
++    """
++    return foo
+```
+
+
 
 
 ## Advanced

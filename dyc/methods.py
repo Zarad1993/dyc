@@ -9,9 +9,10 @@ from base import Builder
 
 
 class MethodBuilder(Builder):
-    def __init__(self, filename, config):
+    def __init__(self, filename, config, placeholders=False):
         self.filename = filename
         self.config = config
+        self.placeholders = placeholders
 
     def extract_and_set_information(self, filename, start, line, length):
         """
@@ -47,6 +48,7 @@ class MethodBuilder(Builder):
         if not end:
             end = length
 
+        linecache.clearcache()
         return MethodInterface(plain=method_string,
                     name=self._get_name(initial_line),
                     start=start,
@@ -54,7 +56,8 @@ class MethodBuilder(Builder):
                     filename=filename,
                     arguments=self.extract_arguments(initial_line.strip('\n')),
                     config=self.config,
-                    leading_space=get_leading_whitespace(initial_line))
+                    leading_space=get_leading_whitespace(initial_line),
+                    placeholders=self.placeholders)
 
     def validate(self, result):
         """
@@ -67,9 +70,9 @@ class MethodBuilder(Builder):
         if not result:
             return False
         name = result.name
-        if name not in self.config.get('ignore', []) \
-            and not self.is_first_line_documented(result) \
-            and click.confirm('Do you want to document method {}?'.format(click.style(name, fg='green'))):
+        if name not in self.config.get('ignore', []) and not self.is_first_line_documented(result):
+            confirmed = True if self.placeholders else click.confirm('Do you want to document method {}?'.format(click.style(name, fg='green')))
+            if confirmed:
                 return True
 
         return False
@@ -101,6 +104,7 @@ class MethodBuilder(Builder):
             if self.config.get('open') in line:
                 returned = True
                 break
+        linecache.clearcache()
         return returned
 
     def prompts(self):
@@ -151,7 +155,10 @@ class MethodBuilder(Builder):
             clear_defs = re.sub('{} '.format(keyword), '', line.strip())
             name = re.sub(r'\([^)]*\)\:', '', clear_defs).strip()
             if re.search(r'\((.*)\)', name):
-                name = re.match(r'^[^\(]+', name).group()
+                try:
+                    name = re.match(r'^[^\(]+', name).group()
+                except:
+                    pass
             if name:
                 return name
 
@@ -296,11 +303,14 @@ class MethodFormatter():
         """
         docstring = self.result.split('\n')
         polished = '\n'.join([self.leading_space + docline for docline in docstring])
-        self.confirm(polished)
+        if self.placeholders:
+            self.result = polished
+        else:
+            self.confirm(polished)
 
 
 class MethodInterface(MethodFormatter):
-    def __init__(self, plain, name, start, end, filename, arguments, config, leading_space):
+    def __init__(self, plain, name, start, end, filename, arguments, config, leading_space, placeholders):
         self.plain = plain
         self.name = name
         self.start = start
@@ -311,6 +321,7 @@ class MethodInterface(MethodFormatter):
         self.arg_docstring = []
         self.config = config
         self.leading_space = leading_space
+        self.placeholders = placeholders
 
     def prompt(self):
         """
@@ -325,8 +336,11 @@ class MethodInterface(MethodFormatter):
         """
         Simple prompt for a method's docstring
         """
-        echo_name = click.style(self.name, fg='green')
-        self.method_docstring = click.prompt('\n({}) Method docstring '.format(echo_name))
+        if self.placeholders:
+            self.method_docstring = '<docstring>'
+        else:
+            echo_name = click.style(self.name, fg='green')
+            self.method_docstring = click.prompt('\n({}) Method docstring '.format(echo_name))
 
     def _prompt_args(self):
         """
@@ -340,9 +354,14 @@ class MethodInterface(MethodFormatter):
             str argument: argument name
             """
             return click.style('{}'.format(argument), fg='red')
+
         for arg in self.arguments:
-            arg_doc = click.prompt('\n({}) Argument docstring '.format(_echo_arg_style(arg)))
-            arg_type = click.prompt('({}) Argument type '.format(_echo_arg_style(arg))) if self.config.get('arguments', {}).get('add_type', False) else ''
+            doc_placeholder = '<arg docstring>'
+            arg_doc = click.prompt('\n({}) Argument docstring '.format(_echo_arg_style(arg))) if not self.placeholders else doc_placeholder
+            show_arg_type = self.config.get('arguments', {}).get('add_type', False)
+            if show_arg_type:
+                arg_placeholder = '<type>'
+                arg_type = click.prompt('({}) Argument type '.format(_echo_arg_style(arg))) if not self.placeholders else arg_placeholder
             self.arg_docstring.append(dict(type=arg_type, doc=arg_doc, name=arg))
 
 
@@ -357,9 +376,12 @@ class ArgumentDetails(object):
         """
         Retrieves arguments from a line
         """
-        ignore = self.config.get('ignore')
-        args = re.search(r'\((.*)\)', self.line).group(1).split(', ')
-        self.args = filter(lambda x: x not in ignore, filter(None, [arg.strip() for arg in args]))
+        try:
+            ignore = self.config.get('ignore')
+            args = re.search(r'\((.*)\)', self.line).group(1).split(', ')
+            self.args = filter(lambda x: x not in ignore, filter(None, [arg.strip() for arg in args]))
+        except:
+            pass
         
     def sanitize(self):
         """
