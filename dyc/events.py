@@ -31,6 +31,14 @@ class Watcher:
 
     @classmethod
     def start(cls, config):
+        """
+        The starter method for watching files.
+        If invoked, it will start watching all files and see if documentation is needed
+
+        Parameters
+        ----------
+        ConfigParser config: Config going to be used in DYC
+        """
         logging.basicConfig(level=logging.INFO)
         observer = Observer()
         event_handler = Event()
