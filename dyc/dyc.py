@@ -1,7 +1,8 @@
 import click
-from .parser import ParsedConfig
-from .main import DYC
+from parser import ParsedConfig
+from main import DYC
 from diff import Diff
+from events import Watcher
 import sys
 import time
 import logging
@@ -51,39 +52,8 @@ def diff(config, watch):
     """
     This argument will run DYC on DIFF patch only
     """
-    class Event(LoggingEventHandler):
-        def dispatch(self, event):
-            """
-            Temporary dispatch method as a POC for logger.
-            Needs cleanup
-            Parameters
-            ----------
-            FileModifiedEvent event: watchdog file of a modified event
-            """
-            diff = Diff(config.plain)
-            uncommitted = diff.uncommitted
-            paths = [idx.get('path') for idx in uncommitted if './{}'.format(idx.get('path')) == event.src_path]
-            filtered = [idx for idx in uncommitted if './{}'.format(idx.get('path')) == event.src_path]
-            if len(filtered):
-                dyc = DYC(config.plain, placeholders=True)
-                dyc.prepare(files=paths)
-                dyc.process_methods(diff_only=True, changes=uncommitted)
-
     if watch:
-        logging.basicConfig(level=logging.INFO,
-                            format='%(asctime)s - %(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S')
-        observer = Observer()
-        event_handler = Event()
-        observer.schedule(event_handler, '.', recursive=True)
-        observer.start()
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            observer.stop()
-            print('Quitting..')
-        observer.join()
+        Watcher.start(config)
     else:
         diff = Diff(config.plain)
         uncommitted = diff.uncommitted
