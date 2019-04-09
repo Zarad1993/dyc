@@ -1,4 +1,11 @@
-<img src="https://user-images.githubusercontent.com/18662248/55584780-bdbdfb00-572d-11e9-895b-6484f15bfea2.png" width="300" height="300"/>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/18662248/55584780-bdbdfb00-572d-11e9-895b-6484f15bfea2.png" width="300" height="300"/>
+</p>
+
+<p align="center">
+  <img src="https://travis-ci.com/Zarad1993/dyc.svg?branch=master" alt="Build Status"/>
+</p>
 
 DYC is a CLI tool that helps with documenting your source code. It will help keep you alert for new methods that were added and not documented.
 Also supports to build a reusable docstring template. Just answer the prompt questions in your terminal to see the effect on your files.
