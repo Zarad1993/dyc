@@ -28,9 +28,10 @@ def main(config):
 
 
 @main.command()
+@click.option('--placeholders', is_flag=True, default=False)
 @click.argument('files', nargs=-1, type=click.Path(exists=True), required=False)
 @config
-def start(config, files):
+def start(config, files, placeholders):
     """
     This is the entry point of starting DYC for the whole project.
     When you run `dyc start`. ParsedConfig will wrap all the
@@ -39,7 +40,7 @@ def start(config, files):
     """
     if files:
         config.plain['file_list'] = list(files)
-    dyc = DYC(config.plain)
+    dyc = DYC(config.plain, placeholders=placeholders)
     dyc.prepare()
     dyc.process_methods()
 

@@ -165,7 +165,7 @@ class MethodBuilder(Builder):
 
 class MethodFormatter():
 
-    formatted_string = '{open}{break_after_open}{method_docstring}{break_after_docstring}{argument_format}{break_before_close}{close}'
+    formatted_string = '{open}{break_after_open}{method_docstring}{break_after_docstring}{empty_line}{argument_format}{break_before_close}{close}'
     fmt = BlankFormatter()
 
     def format(self):
@@ -205,6 +205,7 @@ class MethodFormatter():
         method_format['break_after_open'] = '\n' if method_format['break_after_open'] else ''
         method_format['break_after_docstring'] = '\n' if method_format['break_after_docstring'] else ''
         method_format['break_before_close'] = '\n' if method_format['break_before_close'] else ''
+        method_format['empty_line'] = '\n'
 
         argument_format = copy.deepcopy(self.config.get('arguments'))
         argument_format['inline'] = '' if argument_format['inline'] else '\n'
@@ -227,6 +228,7 @@ class MethodFormatter():
         if not len(self.arguments):
             self.method_format['argument_format'] = ''
             self.method_format['break_before_close'] = ''
+            self.method_format['empty_line'] = ''
             return
 
         config = self.config.get('arguments')

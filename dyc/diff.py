@@ -157,4 +157,4 @@ class Diff(DiffParser, Processor):
         Private method to return the data for the publish uncommitted
         property
         """
-        return self.parse()
+        return self.parse() + self.parse(staged=True)

@@ -6,7 +6,7 @@ from watchdog.events import LoggingEventHandler
 from diff import Diff
 from main import DYC
 
-class Event(LoggingEventHandler):
+class WatchEvent(LoggingEventHandler):
 
     config = None
 
@@ -41,7 +41,7 @@ class Watcher:
         """
         logging.basicConfig(level=logging.INFO)
         observer = Observer()
-        event_handler = Event()
+        event_handler = WatchEvent()
         event_handler.config = config
         observer.schedule(event_handler, '.', recursive=True)
         observer.start()
