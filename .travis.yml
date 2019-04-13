@@ -3,7 +3,7 @@ python:
   - "2.7"
 install:
   - pip install -r requirements.txt
-  - pip install dyc
+  - pip install document-your-code
 # command to run tests
 script:
   - pytest
