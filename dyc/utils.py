@@ -4,6 +4,11 @@ Reusable methods throughout DYC
 import os
 import yaml
 import string
+INDENT_OPTIONS = {
+    'tab': '\t',
+    '2 spaces': '  ',
+    'False': '',
+}
 
 
 def get_leading_whitespace(s): 
@@ -47,14 +52,6 @@ class BlankFormatter(string.Formatter):
         self.default=default
 
     def get_value(self, key, args, kwds):
-        """
-        None
-        Parameters
-        ----------
-        None key: None
-        None args: None
-        None kwds: None
-        """
         if isinstance(key, str):
             return kwds.get(key, self.default)
         else:
@@ -69,15 +66,10 @@ def get_indent(space):
     ----------
     str space: The value of `indent` in a config file
     """
-    if space == 'tab':
-        return '\t'
-    elif space == '2 spaces':
-        return '  '
-    elif space == False:
-        return ''
-    else:
+    value = INDENT_OPTIONS.get(str(space))
+    if value is None:
         return '    '
-
+    return value
 
 def get_extension(filename):
     """
@@ -86,7 +78,10 @@ def get_extension(filename):
     ----------
     str filename: the filename to extract extension from
     """
-    return os.path.splitext(filename)[1].replace('.', '')
+    try:
+        return os.path.splitext(filename)[1].replace('.', '')
+    except AttributeError:
+        return ''
 
 
 def all_files_generator(extensions=[]):

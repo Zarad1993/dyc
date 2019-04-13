@@ -277,13 +277,14 @@ class MethodFormatter():
         else:
             method_split.insert(0, polished)
 
-        result = '\n'.join(method_split)
-        message = click.edit('## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n' + result)
+        try:
+            result = '\n'.join(method_split)
+            message = click.edit('## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n' + result)
+            message = '\n'.join(message.split('\n')[2:])
+        except:
+            print('Quitting the program in the editor terminates the process. Thanks')
+            sys.exit()
 
-        if not message:
-            raise QuitConfirmEditor('You quit the editor')
-
-        message = '\n'.join(message.split('\n')[2:])
         final = []
         start = False
         end = False
