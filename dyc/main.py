@@ -5,9 +5,9 @@ DYC (Document Your Code) Class initiator
 is constructed here. It performs all the readings
 
 """
-from utils import get_extension
-from methods import MethodBuilder
-from base import Processor
+from .utils import get_extension
+from .methods import MethodBuilder
+from .base import Processor
 
 class DYC(Processor):
 

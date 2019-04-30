@@ -1,5 +1,5 @@
 import fileinput
-from utils import all_files_generator, get_file_lines
+from .utils import all_files_generator, get_file_lines
 
 
 class Builder(object):

@@ -4,8 +4,8 @@ import fileinput
 import copy
 import linecache
 import click
-from utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
-from base import Builder
+from .utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
+from .base import Builder
 
 
 class MethodBuilder(Builder):
@@ -385,7 +385,7 @@ class ArgumentDetails(object):
             self.args = filter(lambda x: x not in ignore, filter(None, [arg.strip() for arg in args]))
         except:
             pass
-        
+
     def sanitize(self):
         """
         Sanitizes arguments to validate all arguments are correct
