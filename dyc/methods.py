@@ -140,7 +140,7 @@ class MethodBuilder(Builder):
         if not self.details:
             yield None
 
-        for filename, func_pack in self.details.iteritems():
+        for filename, func_pack in self.details.items():
             for method_interface in func_pack.values():
                 yield method_interface
 
@@ -225,7 +225,7 @@ class MethodFormatter():
         """
         Main function for wrapping up argument docstrings
         """
-        if not len(self.arguments):
+        if not self.arguments:  # if len(self.arguments) == 0
             self.method_format['argument_format'] = ''
             self.method_format['break_before_close'] = ''
             self.method_format['empty_line'] = ''
@@ -241,7 +241,7 @@ class MethodFormatter():
 
         result = []
 
-        if len(self.arguments):
+        if self.arguments:  # if len(self.arguments) > 0
             for argument_details in self.arg_docstring:
                 argument_details['prefix'] = self.argument_format.get('prefix')
                 result.append(self.fmt.format(formatted_args, **argument_details).strip())
