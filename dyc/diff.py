@@ -9,8 +9,8 @@ The file will patch will undergo the process of:
 import os
 import git
 import ntpath
-from utils import get_hunk, get_additions_in_first_hunk
-from base import Processor
+from .utils import get_hunk, get_additions_in_first_hunk
+from .base import Processor
 
 
 class DiffParser():

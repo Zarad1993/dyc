@@ -1,5 +1,5 @@
 import fileinput
-from utils import all_files_generator, get_file_lines
+from .utils import all_files_generator, get_file_lines
 
 
 class Builder(object):
@@ -20,7 +20,7 @@ class Builder(object):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
             keywords = self.config.get('keywords')
-            found = len(filter(lambda word: word.lstrip() in keywords, line.split(' '))) > 0
+            found = len([word.lstrip() for word in line.split(' ') if word.lstrip() in keywords]) > 0
 
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)
@@ -165,4 +165,4 @@ class Processor(FilesDirector, FormatsDirector):
         """
         Property that returns all the allowed extensions
         """
-        return filter(None, map(lambda fmt: fmt.get('extension'), self.config.get('formats')))
+        return list(filter(None, map(lambda fmt: fmt.get('extension'), self.config.get('formats'))))

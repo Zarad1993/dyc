@@ -11,7 +11,7 @@ INDENT_OPTIONS = {
 }
 
 
-def get_leading_whitespace(s): 
+def get_leading_whitespace(s):
     """
     Gets the leading whitespace of a string. Mainly used to
     determine how many space were there originally before adding a
@@ -21,13 +21,13 @@ def get_leading_whitespace(s):
     ----------
     str s: String text
     """
-    accumulator = [] 
-    for c in s: 
-        if c in ' \t\v\f\r\n': 
-            accumulator.append(c) 
-        else: 
-            break 
-    return ''.join(accumulator) 
+    accumulator = []
+    for c in s:
+        if c in ' \t\v\f\r\n':
+            accumulator.append(c)
+        else:
+            break
+    return ''.join(accumulator)
 
 
 def read_yaml(path):
@@ -95,7 +95,7 @@ def all_files_generator(extensions=[]):
     for root, dirs, files in os.walk(os.getcwd()):
         files = [os.path.join(root, f) for f in files if not f[0] == '.']
         dirs[:] = [d for d in dirs if not d[0] == '.']
-        if len(extensions):
+        if extensions:
             files = [filename for filename in files if get_extension(filename) in extensions]
         yield files
 

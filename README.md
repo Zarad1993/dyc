@@ -20,6 +20,7 @@ All contributions are welcome. Please follow [Development](#development) steps t
 ## Tech
 
 * [Python 2.7](https://www.python.org/download/releases/2.7/)
+* [Python 3](https://www.python.org/downloads/release/python-373/)
 
 
 ## Installation
@@ -209,7 +210,7 @@ def hello(name):
 # dyc.yaml
 
 formats:
-  - 
+  -
     extension: 'py'
     method:
       indent: 'tab'
