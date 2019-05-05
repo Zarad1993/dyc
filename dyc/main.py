@@ -27,9 +27,13 @@ class DYC(Processor):
         """
         print('\nProcessing Methods\n\r')
         for filename in self.file_list:
+
             try:
-                change = filter(lambda x: x.get('path') == filename, changes)[0]
-            except:
+                change = list(filter(lambda x: x.get('path') == filename, changes))[0]
+            except TypeError as e:
+                click.echo(click.style('Error %r: USING default settings' % e, fg='red'))
+                return
+            except IndexError:
                 change = None
 
             extension = get_extension(filename)
