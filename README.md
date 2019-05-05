@@ -5,6 +5,7 @@
 
 <p align="center">
   <img src="https://travis-ci.com/Zarad1993/dyc.svg?branch=master" alt="Build Status"/>
+  <img src="https://pepy.tech/badge/document-your-code/month" alt="Downloads"/>
 </p>
 
 DYC is a CLI tool that helps with documenting your source code. It will help keep you alert for new methods that were added and not documented.
