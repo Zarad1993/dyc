@@ -80,7 +80,7 @@ def get_extension(filename):
     """
     try:
         return os.path.splitext(filename)[1].replace('.', '')
-    except AttributeError:
+    except (AttributeError, TypeError):
         return ''
 
 
