@@ -52,9 +52,9 @@ class TestGetExtension():
         got = get_extension(ext)
         assert  expected == got
 
-    def test_wrong_extensoin_type(self):
-        exts = [ dict(), False, True, [], 123]
+    def test_wrong_extension_type(self):
+        exts = [dict(), False, True, [], 123]
         expected = ''
         for ext in exts:
-	        got = get_extension(ext)
-	        assert  expected == got
+            got = get_extension(ext)
+            assert expected == got
