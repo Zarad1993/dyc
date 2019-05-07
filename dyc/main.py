@@ -10,8 +10,8 @@ from .utils import get_extension
 from .methods import MethodBuilder
 from .base import Processor
 
-class DYC(Processor):
 
+class DYC(Processor):
     def __init__(self, config, details=None, placeholders=False):
         self.config = config
         self.placeholders = placeholders
@@ -26,22 +26,26 @@ class DYC(Processor):
         bool diff_only: Use a diff only. Consumed by dyc diff.
         list changes: Changes in a file, mainly use also with dyc diff.
         """
-        print('\nProcessing Methods\n\r')
+        print("\nProcessing Methods\n\r")
         for filename in self.file_list:
 
             try:
-                change = list(filter(lambda x: x.get('path') == filename, changes))[0]
+                change = list(filter(lambda x: x.get("path") == filename, changes))[0]
             except TypeError as e:
-                click.echo(click.style('Error %r: USING default settings' % e, fg='red'))
+                click.echo(
+                    click.style("Error %r: USING default settings" % e, fg="red")
+                )
                 return
             except IndexError:
                 change = None
 
             extension = get_extension(filename)
             fmt = self.formats.get(extension)
-            method_cnf = fmt.get('method', {})
-            method_cnf['arguments'] = fmt.get('arguments')
-            builder = MethodBuilder(filename, method_cnf, placeholders=self.placeholders)
+            method_cnf = fmt.get("method", {})
+            method_cnf["arguments"] = fmt.get("arguments")
+            builder = MethodBuilder(
+                filename, method_cnf, placeholders=self.placeholders
+            )
             builder.initialize(change=change)
             builder.prompts()
             builder.apply()
