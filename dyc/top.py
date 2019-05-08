@@ -97,7 +97,7 @@ class TopBuilder(Builder):
         result = add_start_end(polished)
         try:
             message = click.edit(
-                "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LgitINES ONLY\n\n"
+                "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
                 + result
             )
             message = "\n".join(message.split("\n")[2:])
