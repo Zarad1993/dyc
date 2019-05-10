@@ -19,12 +19,6 @@ class TopBuilder(Builder):
         super().__init__(filename, config, placeholders=placeholders)
         self.is_validated = False
 
-    def initialize(self):
-        """
-        This method overrides the method in the builder base.
-        """
-        pass
-
     def validate(self):
         """
         An abstract validator method that checks if the top is
@@ -69,7 +63,7 @@ class TopBuilder(Builder):
                 self.Top_docstring = click.prompt("\n({}) Top docstring ".format(name))
 
     def apply(self):
-        if self.is_validated:   
+        if self.is_validated:
             self.polish()
             final_result = self.wrap_doc_strings(self.result)
 
