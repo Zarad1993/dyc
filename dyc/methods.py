@@ -3,6 +3,7 @@ import re
 import fileinput
 import copy
 import linecache
+import os
 import click
 from .utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
 from .base import Builder
@@ -74,7 +75,10 @@ class MethodBuilder(Builder):
         name = result.name
         if name not in self.config.get('ignore', []) and not self.is_first_line_documented(result):
             if self.filename not in self.already_printed_filepaths:  # Print file of method to document
-                click.echo("\n\nIn file {} :\n".format(click.style(self.filename, fg='red')))
+                dirname, filename = os.path.split(self.filename)
+                dirname = os.path.basename(os.path.basename(dirname))
+                relative_path = os.path.join(dirname, filename)
+                click.echo("\n\nIn file {} :\n".format(click.style(relative_path, fg='red')))
                 self.already_printed_filepaths.append(self.filename)
             confirmed = True if self.placeholders else click.confirm('Do you want to document method {}?'.format(click.style(name, fg='green')))
             if confirmed:
