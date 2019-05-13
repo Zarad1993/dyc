@@ -9,6 +9,8 @@ from .base import Builder
 
 
 class MethodBuilder(Builder):
+    already_printed_filepaths = []  # list of already printed files
+
     def __init__(self, filename, config, placeholders=False):
         self.filename = filename
         self.config = config
@@ -28,7 +30,7 @@ class MethodBuilder(Builder):
         """
         start_line = linecache.getline(filename, start)
         initial_line = line
-        start_leading_space = get_leading_whitespace(start_line) # Where function started
+        start_leading_space = get_leading_whitespace(start_line)  # Where function started
         method_string = start_line
         line_within_scope = True
         lineno = start + 1
@@ -71,6 +73,9 @@ class MethodBuilder(Builder):
             return False
         name = result.name
         if name not in self.config.get('ignore', []) and not self.is_first_line_documented(result):
+            if self.filename not in self.already_printed_filepaths:  # Print file of method to document
+                click.echo("\n\nIn file {} :\n".format(click.style(self.filename, fg='red')))
+                self.already_printed_filepaths.append(self.filename)
             confirmed = True if self.placeholders else click.confirm('Do you want to document method {}?'.format(click.style(name, fg='green')))
             if confirmed:
                 return True
@@ -294,7 +299,7 @@ class MethodFormatter():
             if stripped == '## END':
                 end = True
             if start and not end:
-              final.append(x)
+                final.append(x)
             if stripped == '## START':
                 start = True
 

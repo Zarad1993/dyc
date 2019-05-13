@@ -3,6 +3,11 @@ from .utils import all_files_generator, get_file_lines
 
 
 class Builder(object):
+    def __init__(self, filename, config, placeholders=False):
+        self.filename = filename
+        self.config = config
+        self.placeholders = placeholders
+        
     details = dict()
 
     def initialize(self, change=None):
