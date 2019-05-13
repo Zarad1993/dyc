@@ -15,16 +15,7 @@ from .base import Builder
 
 
 class TopBuilder(Builder):
-    def __init__(self, filename, config, placeholders=False):
-        self.filename = filename
-        self.config = config
-        self.placeholders = placeholders
-
-    def initialize(self):
-        """
-        This method overrides the method in the builder base.
-        """
-        pass
+    is_validated = False
 
     def validate(self):
         """
@@ -62,6 +53,7 @@ class TopBuilder(Builder):
 
         self.Top_docstring = ""
         if self.validate():
+            self.is_validated = True
             if self.placeholders:
                 self.Top_docstring = "<docstring>"
             else:
@@ -69,7 +61,7 @@ class TopBuilder(Builder):
                 self.Top_docstring = click.prompt("\n({}) Top docstring ".format(name))
 
     def apply(self):
-        if self.validate():
+        if self.is_validated:
             self.polish()
             final_result = self.wrap_doc_strings(self.result)
 
