@@ -1,15 +1,10 @@
 import sys
-import re
 import fileinput
-import copy
 import linecache
 import click
 from .utils import (
     get_leading_whitespace,
-    BlankFormatter,
-    get_indent,
     add_start_end,
-    get_file_lines,
 )
 from .base import Builder
 
