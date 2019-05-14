@@ -17,6 +17,7 @@ Also supports to build a reusable docstring template. Just answer the prompt que
 
 
 All contributions are welcome. Please follow [Development](#development) steps to get up and running, all PRs are welcome.
+Please join our [IRC discord channel](https://discord.gg/NWUQtRx) if interested.
 
 ## Tech
 
