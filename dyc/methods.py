@@ -11,10 +11,6 @@ from .base import Builder
 class MethodBuilder(Builder):
     already_printed_filepaths = []  # list of already printed files
 
-    def __init__(self, filename, config, placeholders=False):
-        self.filename = filename
-        self.config = config
-        self.placeholders = placeholders
 
     def extract_and_set_information(self, filename, start, line, length):
         """
