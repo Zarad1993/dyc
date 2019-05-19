@@ -382,7 +382,7 @@ class ArgumentDetails(object):
         """
         try:
             ignore = self.config.get('ignore')
-            args = re.search(r'\((.*)\)', self.line).group(1).split(', ')
+            args = re.search(r'\(([\s\S]*)\)', self.line).group(1).split(', ')
             self.args = filter(lambda x: x not in ignore, filter(None, [arg.strip() for arg in args]))
         except:
             pass
