@@ -270,6 +270,8 @@ To get started.
 $ pip install --editable .
 ```
 
+We use [black](https://github.com/python/black) to maintain a standard format for our code. Contributions must be black formatted to pass CI.
+
 ## License
 
 MIT ©

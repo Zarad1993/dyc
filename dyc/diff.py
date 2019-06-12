@@ -13,7 +13,7 @@ from .utils import get_hunk, get_additions_in_first_hunk
 from .base import Processor
 
 
-class DiffParser():
+class DiffParser:
 
     PREFIX = 'diff --git'
 
@@ -89,7 +89,7 @@ class DiffParser():
         for index, line in enumerate(patch):
             _hunk = get_hunk(line)
 
-            if (len(patch) -1) == index:
+            if (len(patch) - 1) == index:
                 final.append(dict(patch='\n'.join(result), hunk=(start, end)))
 
             if len(_hunk) and not hit:
@@ -109,7 +109,9 @@ class DiffParser():
     def __clean(self, patch, diff):
         """Returns a clean dict of a path"""
         result = {}
-        result['additions'] = self.__additions(self.__pack(patch.split('\n')), diff.a_path) # [{hunk: (start, end), patch:}]
+        result['additions'] = self.__additions(
+            self.__pack(patch.split('\n')), diff.a_path
+        )  # [{hunk: (start, end), patch:}]
         result['plain'] = patch
         result['diff'] = diff
         result['name'] = ntpath.basename(diff.a_path)

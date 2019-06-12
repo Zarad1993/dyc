@@ -7,7 +7,7 @@ class Builder(object):
         self.filename = filename
         self.config = config
         self.placeholders = placeholders
-        
+
     details = dict()
 
     def initialize(self, change=None):
@@ -25,7 +25,16 @@ class Builder(object):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
             keywords = self.config.get('keywords')
-            found = len([word.lstrip() for word in line.split(' ') if word.lstrip() in keywords]) > 0
+            found = (
+                len(
+                    [
+                        word.lstrip()
+                        for word in line.split(' ')
+                        if word.lstrip() in keywords
+                    ]
+                )
+                > 0
+            )
 
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)
@@ -35,7 +44,9 @@ class Builder(object):
 
             if found:
                 length = get_file_lines(filename)
-                result = self.extract_and_set_information(filename, lineno, line, length)
+                result = self.extract_and_set_information(
+                    filename, lineno, line, length
+                )
                 if self.validate(result):
                     self.details[filename][result.name] = result
 
@@ -82,7 +93,7 @@ class Builder(object):
         pass
 
 
-class FilesDirector():
+class FilesDirector:
 
     WILD_CARD = ['.', '*']
 
@@ -133,7 +144,7 @@ class FilesDirector():
         self.file_list = result
 
 
-class FormatsDirector():
+class FormatsDirector:
 
     formats = dict()
 
@@ -146,6 +157,7 @@ class FormatsDirector():
 
 class Processor(FilesDirector, FormatsDirector):
     """Subclass process that runs complete lifecycle for DYC"""
+
     def start(self):
         """
         TODO Method wrapper for starting the process
@@ -170,4 +182,8 @@ class Processor(FilesDirector, FormatsDirector):
         """
         Property that returns all the allowed extensions
         """
-        return list(filter(None, map(lambda fmt: fmt.get('extension'), self.config.get('formats'))))
+        return list(
+            filter(
+                None, map(lambda fmt: fmt.get('extension'), self.config.get('formats'))
+            )
+        )

@@ -1,6 +1,7 @@
 from dyc.utils import get_leading_whitespace, read_yaml, get_indent, get_extension
 
-class TestGetLeadingWhitespace():
+
+class TestGetLeadingWhitespace:
     def test_tabs(self):
         text = '\t\tHello'
         expected = '\t\t'
@@ -15,7 +16,7 @@ class TestGetLeadingWhitespace():
         assert expected == got
 
 
-class TestReadYaml():
+class TestReadYaml:
     def test_should_return_none_if_not_found(self):
         random_path = '/path/to/non/existing/file.yaml'
         expected = None
@@ -23,8 +24,7 @@ class TestReadYaml():
         assert expected == got
 
 
-class TestGetIndent():
-
+class TestGetIndent:
     def test_tabs(self):
         assert get_indent('tab') == '\t'
 
@@ -38,19 +38,18 @@ class TestGetIndent():
         assert get_indent(None) == '    '
 
 
-class TestGetExtension():
-
+class TestGetExtension:
     def test_existing_extension_valid(self):
         ext = 'file.puk'
         expected = 'puk'
         got = get_extension(ext)
-        assert  expected == got
+        assert expected == got
 
     def test_non_existing_extension(self):
         ext = 'file'
         expected = ''
         got = get_extension(ext)
-        assert  expected == got
+        assert expected == got
 
     def test_wrong_extension_type(self):
         exts = [dict(), False, True, [], 123]

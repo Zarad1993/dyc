@@ -45,9 +45,10 @@ def start(config, files, placeholders):
     dyc.process_methods()
 
 
-
 @main.command()
-@click.option('--watch', help='Add default placeholder when watching', is_flag=True, default=False)
+@click.option(
+    '--watch', help='Add default placeholder when watching', is_flag=True, default=False
+)
 @config
 def diff(config, watch):
     """

@@ -4,11 +4,8 @@ Reusable methods throughout DYC
 import os
 import yaml
 import string
-INDENT_OPTIONS = {
-    'tab': '\t',
-    '2 spaces': '  ',
-    'False': '',
-}
+
+INDENT_OPTIONS = {'tab': '\t', '2 spaces': '  ', 'False': ''}
 
 
 def get_leading_whitespace(s):
@@ -49,7 +46,7 @@ def read_yaml(path):
 
 class BlankFormatter(string.Formatter):
     def __init__(self, default=''):
-        self.default=default
+        self.default = default
 
     def get_value(self, key, args, kwds):
         if isinstance(key, str):
@@ -70,6 +67,7 @@ def get_indent(space):
     if value is None:
         return '    '
     return value
+
 
 def get_extension(filename):
     """
@@ -96,7 +94,9 @@ def all_files_generator(extensions=[]):
         files = [os.path.join(root, f) for f in files if not f[0] == '.']
         dirs[:] = [d for d in dirs if not d[0] == '.']
         if extensions:
-            files = [filename for filename in files if get_extension(filename) in extensions]
+            files = [
+                filename for filename in files if get_extension(filename) in extensions
+            ]
         yield files
 
 
@@ -138,6 +138,7 @@ def get_hunk(patch):
     str patch: Diff patched text
     """
     import re
+
     pat = r'.*?\@\@(.*)\@\@.*'
     match = re.findall(pat, patch)
     return [m.strip() for m in match]
@@ -150,8 +151,10 @@ def get_additions_in_first_hunk(hunk):
     ----------
     str hunk: Git diff Hunk
     """
-    if not isinstance(hunk, list): return None, None
-    if len(hunk) < 1: return None, None
+    if not isinstance(hunk, list):
+        return None, None
+    if len(hunk) < 1:
+        return None, None
     adds_patch = hunk[0].split('+')[-1].split(',')
     start = int(adds_patch[0])
     end = int(start) + int(adds_patch[1])

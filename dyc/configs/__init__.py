@@ -5,6 +5,7 @@ ROOT_PATH = os.getcwd()
 DEFAULT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'defaults.yaml')
 CUSTOM = os.path.join(ROOT_PATH, 'dyc.yaml')
 
+
 class Config(object):
 
     default = read_yaml(DEFAULT)
@@ -36,8 +37,10 @@ class Config(object):
             cnf_index = self._get_custom_extension_index(extension)
             try:
                 for nested_key, nested_obj in value.iteritems():
-                    try: 
-                        self.plain.get('formats')[cnf_index][nested_key].update(**nested_obj) if nested_obj else None
+                    try:
+                        self.plain.get('formats')[cnf_index][nested_key].update(
+                            **nested_obj
+                        ) if nested_obj else None
                     except AttributeError:
                         continue
             except (IndexError, TypeError):
