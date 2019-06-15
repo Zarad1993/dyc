@@ -1,9 +1,11 @@
 language: python
 python:
   - "2.7"
+  - "3.6"
 install:
   - pip install -r requirements.txt
   - pip install document-your-code
 # command to run tests
 script:
   - pytest
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then pip install black; black --check --diff --skip-string-normalization .; fi

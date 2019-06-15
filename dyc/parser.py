@@ -15,4 +15,9 @@ class ParsedConfig(Config):
         try:
             self.override()
         except AttributeError:
-            click.echo(click.style('`dyc.yaml` Missing or Incorrectly formatted. USING default settings', fg='cyan'))
+            click.echo(
+                click.style(
+                    '`dyc.yaml` Missing or Incorrectly formatted. USING default settings',
+                    fg='cyan',
+                )
+            )

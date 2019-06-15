@@ -6,6 +6,7 @@ from watchdog.events import LoggingEventHandler
 from .diff import Diff
 from .main import DYC
 
+
 class WatchEvent(LoggingEventHandler):
 
     config = None
@@ -20,15 +21,23 @@ class WatchEvent(LoggingEventHandler):
         """
         diff = Diff(self.config.plain)
         uncommitted = diff.uncommitted
-        paths = [idx.get('path') for idx in uncommitted if './{}'.format(idx.get('path')) == event.src_path]
-        filtered = [idx for idx in uncommitted if './{}'.format(idx.get('path')) == event.src_path]
+        paths = [
+            idx.get('path')
+            for idx in uncommitted
+            if './{}'.format(idx.get('path')) == event.src_path
+        ]
+        filtered = [
+            idx
+            for idx in uncommitted
+            if './{}'.format(idx.get('path')) == event.src_path
+        ]
         if len(filtered):
             dyc = DYC(self.config.plain, placeholders=True)
             dyc.prepare(files=paths)
             dyc.process_methods(diff_only=True, changes=uncommitted)
 
-class Watcher:
 
+class Watcher:
     @classmethod
     def start(cls, config):
         """
