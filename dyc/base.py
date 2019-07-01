@@ -33,7 +33,8 @@ class Builder(object):
                         if word.lstrip() in keywords
                     ]
                 )
-                > 0 and line.lstrip(' ')[0] != '#' # line is not a comment line
+                > 0
+                and line.lstrip(' ')[0] != '#'  # line is not a comment line
             )
 
             if change and found:
