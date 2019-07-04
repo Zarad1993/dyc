@@ -78,7 +78,7 @@ class MethodBuilder(Builder):
                 self.filename not in self.already_printed_filepaths
             ):  # Print file of method to document
                 click.echo(
-                    "\n\nIn file {} :\n".format(click.style(self.filename, fg='red'))
+                    "\n\nIn file {} :\n".format(click.style(re.split("/dyc/", self.filename)[1], fg='red'))
                 )
                 self.already_printed_filepaths.append(self.filename)
             confirmed = (
