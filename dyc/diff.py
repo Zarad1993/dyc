@@ -15,7 +15,7 @@ from .base import Processor
 
 class DiffParser:
 
-    PREFIX = 'diff --git'
+    PREFIX = "diff --git"
 
     def parse(self, staged=False):
         """
@@ -25,8 +25,8 @@ class DiffParser:
         ----------
         bool staged: Only using the staged files
         """
-        self.diffs = self.repo.index.diff('HEAD' if staged else None)
-        self.plain = self.repo.git.diff('HEAD').split('\n')
+        self.diffs = self.repo.index.diff("HEAD" if staged else None)
+        self.plain = self.repo.git.diff("HEAD").split("\n")
         return self._pack()
 
     def _pack(self):
@@ -36,9 +36,9 @@ class DiffParser:
         patches = []
         for diff in self.diffs:
             if not self.is_candidate(diff.a_path):
-                print('File {} is not a candidate to apply DYC'.format(diff.a_path))
+                print("File {} is not a candidate to apply DYC".format(diff.a_path))
                 continue
-            sep = '{} a/{} b/{}'.format(self.PREFIX, diff.a_path, diff.b_path)
+            sep = "{} a/{} b/{}".format(self.PREFIX, diff.a_path, diff.b_path)
             patch = self.__clean(self.__patch(sep), diff)
             patches.append(patch)
         return patches
@@ -72,7 +72,7 @@ class DiffParser:
                 break
             elif hit:
                 patch.append(line)
-        return '\n'.join(patch)
+        return "\n".join(patch)
 
     def __pack(self, patch):
         """
@@ -90,14 +90,14 @@ class DiffParser:
             _hunk = get_hunk(line)
 
             if (len(patch) - 1) == index:
-                final.append(dict(patch='\n'.join(result), hunk=(start, end)))
+                final.append(dict(patch="\n".join(result), hunk=(start, end)))
 
             if len(_hunk) and not hit:
                 start, end = get_additions_in_first_hunk(get_hunk(line))
                 hit = True
                 continue
             elif len(_hunk) and hit:
-                final.append(dict(patch='\n'.join(result), hunk=(start, end)))
+                final.append(dict(patch="\n".join(result), hunk=(start, end)))
                 start, end = get_additions_in_first_hunk(get_hunk(line))
                 result = []
                 hit = True
@@ -109,13 +109,13 @@ class DiffParser:
     def __clean(self, patch, diff):
         """Returns a clean dict of a path"""
         result = {}
-        result['additions'] = self.__additions(
-            self.__pack(patch.split('\n')), diff.a_path
+        result["additions"] = self.__additions(
+            self.__pack(patch.split("\n")), diff.a_path
         )  # [{hunk: (start, end), patch:}]
-        result['plain'] = patch
-        result['diff'] = diff
-        result['name'] = ntpath.basename(diff.a_path)
-        result['path'] = diff.a_path
+        result["plain"] = patch
+        result["diff"] = diff
+        result["name"] = ntpath.basename(diff.a_path)
+        result["path"] = diff.a_path
         return result
 
     def __additions(self, hunks, path):
@@ -127,17 +127,17 @@ class DiffParser:
         str path: path of a file
         """
         for hunk in hunks:
-            patch = hunk.get('patch')
+            patch = hunk.get("patch")
             result = []
-            for line in patch.split('\n'):
+            for line in patch.split("\n"):
                 try:
-                    if line[0] == '+' and not line.startswith('+++'):
+                    if line[0] == "+" and not line.startswith("+++"):
                         l = line[1:]
                         result.append(l)
                 except IndexError as e:
                     print(e.message)
                     continue
-            hunk['patch'] = '\n'.join(result)
+            hunk["patch"] = "\n".join(result)
         return hunks
 
 

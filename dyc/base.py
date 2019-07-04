@@ -19,17 +19,17 @@ class Builder(object):
 
         patches = []
         if change:
-            patches = change.get('additions')
+            patches = change.get("additions")
 
         for line in fileinput.input(self.filename):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
-            keywords = self.config.get('keywords')
+            keywords = self.config.get("keywords")
             found = (
                 len(
                     [
                         word.lstrip()
-                        for word in line.split(' ')
+                        for word in line.split(" ")
                         if word.lstrip() in keywords
                     ]
                 )
@@ -61,10 +61,10 @@ class Builder(object):
         """
         result = False
         for change in patches:
-            start, end = change.get('hunk')
+            start, end = change.get("hunk")
             if start <= lineno <= end:
-                patch = change.get('patch')
-                found = filter(lambda l: line.replace('\n', '') == l, patch.split('\n'))
+                patch = change.get("patch")
+                found = filter(lambda l: line.replace("\n", "") == l, patch.split("\n"))
                 if found:
                     result = True
                     break
@@ -95,7 +95,7 @@ class Builder(object):
 
 class FilesDirector:
 
-    WILD_CARD = ['.', '*']
+    WILD_CARD = [".", "*"]
 
     def prepare_files(self, files=[]):
         """
@@ -128,9 +128,9 @@ class FilesDirector:
         ----------
         list files: Pre-given files list
         """
-        if self.config.get('file_list'):
+        if self.config.get("file_list"):
             # File list has already been passed
-            self.file_list = self.config.get('file_list')
+            self.file_list = self.config.get("file_list")
             return
 
         if len(files):
@@ -152,7 +152,7 @@ class FormatsDirector:
         """
         Function that prepares allowed formats
         """
-        self.formats = {ext.get('extension'): ext for ext in self.config.get('formats')}
+        self.formats = {ext.get("extension"): ext for ext in self.config.get("formats")}
 
 
 class Processor(FilesDirector, FormatsDirector):
@@ -184,6 +184,6 @@ class Processor(FilesDirector, FormatsDirector):
         """
         return list(
             filter(
-                None, map(lambda fmt: fmt.get('extension'), self.config.get('formats'))
+                None, map(lambda fmt: fmt.get("extension"), self.config.get("formats"))
             )
         )

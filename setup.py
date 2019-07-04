@@ -20,5 +20,5 @@ setup(
         "pytest==4.4.0",
     ],
     entry_points={"console_scripts": ["dyc=dyc.dyc:main"]},
-    package_data={'': ['*.yaml']},
+    package_data={"": ["*.yaml"]},
 )
