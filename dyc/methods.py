@@ -6,6 +6,7 @@ import linecache
 import click
 from .utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
 from .base import Builder
+import os
 
 
 class MethodBuilder(Builder):
@@ -79,7 +80,9 @@ class MethodBuilder(Builder):
             ):  # Print file of method to document
                 click.echo(
                     "\n\nIn file {} :\n".format(
-                        click.style(re.split("/dyc/", self.filename)[1], fg="red")
+                        click.style(
+                            self.filename[len(self.project_directory) + 1 :], fg="red"
+                        )
                     )
                 )
                 self.already_printed_filepaths.append(self.filename)

@@ -16,7 +16,7 @@ class DYC(Processor):
         self.config = config
         self.placeholders = placeholders
 
-    def process_methods(self, diff_only=False, changes=[]):
+    def process_methods(self, project_directory="", diff_only=False, changes=[]):
         """
         Main method that documents methods in a file. To any
         file that needs to be documented. Process methods is the
@@ -44,7 +44,7 @@ class DYC(Processor):
             method_cnf = fmt.get("method", {})
             method_cnf["arguments"] = fmt.get("arguments")
             builder = MethodBuilder(
-                filename, method_cnf, placeholders=self.placeholders
+                filename, method_cnf, project_directory, placeholders=self.placeholders
             )
             builder.initialize(change=change)
             builder.prompts()

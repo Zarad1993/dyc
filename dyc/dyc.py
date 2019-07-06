@@ -3,6 +3,7 @@ from .parser import ParsedConfig
 from .main import DYC
 from .diff import Diff
 from .events import Watcher
+import os
 import sys
 import time
 import logging
@@ -38,11 +39,12 @@ def start(config, files, placeholders):
     files list going to loop
     over and add missing documentation on.
     """
+    project_dir = os.getcwd()
     if files:
         config.plain["file_list"] = list(files)
     dyc = DYC(config.plain, placeholders=placeholders)
     dyc.prepare()
-    dyc.process_methods()
+    dyc.process_methods(project_directory=project_dir)
 
 
 @main.command()
