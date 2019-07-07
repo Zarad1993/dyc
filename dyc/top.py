@@ -24,10 +24,11 @@ class TopBuilder(Builder):
         An abstract validator method that checks if the top is
         still valid and gives the final decision
         """
+        current_file_dir = self.filename.split("\\")
         if not self.is_top_file_documented():
             confirmed = click.confirm(
                 "Do you want to document top of file {}?".format(
-                    click.style(self.filename, fg="green")
+                    click.style("\\".join(current_file_dir[:-3]), fg="green")
                 )
             )
             if confirmed:
@@ -42,7 +43,7 @@ class TopBuilder(Builder):
         """
         returned = False
         line = linecache.getline(self.filename, 1)
-        if self.config.get("open") in line:
+        if '"""' in line:
             returned = True
         linecache.clearcache()
         return returned
