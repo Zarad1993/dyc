@@ -40,7 +40,7 @@ def start(config, files, placeholders):
     over and add missing documentation on.
     """
     curr_dir = os.getcwd()
-    project_dir = curr_dir[:curr_dir.rindex("/")+1]
+    project_dir = curr_dir[: curr_dir.rindex("/") + 1]
     if files:
         config.plain["file_list"] = list(files)
     dyc = DYC(config.plain, placeholders=placeholders)

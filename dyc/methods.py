@@ -81,7 +81,7 @@ class MethodBuilder(Builder):
                 click.echo(
                     "\n\nIn file {} :\n".format(
                         click.style(
-                            self.filename[len(self.project_directory):], fg="red"
+                            self.filename[len(self.project_directory) :], fg="red"
                         )
                     )
                 )
