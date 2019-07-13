@@ -28,7 +28,7 @@ class TopBuilder(Builder):
         if not self.is_top_file_documented():
             confirmed = click.confirm(
                 "Do you want to document top of file {}?".format(
-                    click.style("\\".join(current_file_dir[:-3]), fg="green")
+                    click.style("\\".join(current_file_dir[-3:]), fg="green")
                 )
             )
             if confirmed:
@@ -43,7 +43,7 @@ class TopBuilder(Builder):
         """
         returned = False
         line = linecache.getline(self.filename, 1)
-        if '"""' in line:
+        if self.config.get('open') in line:
             returned = True
         linecache.clearcache()
         return returned
