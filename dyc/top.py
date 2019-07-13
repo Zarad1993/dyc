@@ -1,23 +1,16 @@
 import sys
-import re
 import fileinput
-import copy
 import linecache
 import click
 from .utils import (
     get_leading_whitespace,
-    BlankFormatter,
-    get_indent,
     add_start_end,
-    get_file_lines,
 )
 from .base import Builder
 
 
 class TopBuilder(Builder):
-    def __init__(self, filename, config, placeholders=False):
-        super().__init__(filename, config, placeholders=placeholders)
-        self.is_validated = False
+    is_validated = False
 
     def validate(self):
         """
