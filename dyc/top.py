@@ -78,12 +78,14 @@ class TopBuilder(Builder):
         return "\n".join(subs)
 
     def confirm(self, polished):
-
+        prev = linecache.getline(self.filename, 2)
+        prev2 = linecache.getline(self.filename, 3)
+        linecache.clearcache()
         result = add_start_end(polished)
         try:
             message = click.edit(
                 "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
-                + result
+                + result + "\n" + prev + prev2
             )
             message = "\n".join(message.split("\n")[2:])
         except:
