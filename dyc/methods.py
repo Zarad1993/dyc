@@ -6,7 +6,7 @@ import linecache
 import click
 from .utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
 from .base import Builder
-
+import os
 
 class MethodBuilder(Builder):
     already_printed_filepaths = []  # list of already printed files
@@ -78,7 +78,7 @@ class MethodBuilder(Builder):
                 self.filename not in self.already_printed_filepaths
             ):  # Print file of method to document
                 click.echo(
-                    "\n\nIn file {} :\n".format(click.style(self.filename, fg='red'))
+                    "\n\nIn file {} :\n".format(click.style(os.path.join(*self.filename.split(os.sep)[-3:]), fg='red'))
                 )
                 self.already_printed_filepaths.append(self.filename)
             confirmed = (
