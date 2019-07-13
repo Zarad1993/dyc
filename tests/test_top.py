@@ -7,15 +7,14 @@ import linecache
 import tempfile
 import unittest
 
-class TestTopFileBuilder(unittest.TestCase):
 
-    
+class TestTopFileBuilder(unittest.TestCase):
     def test_is_top_file_documented(self):
         fd, temp_file_name = tempfile.mkstemp()
         os.close(fd)
-        f = open(temp_file_name, 'w')
+        f = open(temp_file_name, "w")
         try:
-            f.write(config.get('open'))
+            f.write(config.get("open"))
         finally:
             f.close()
         builder = TopBuilder(temp_file_name, config)
@@ -23,9 +22,6 @@ class TestTopFileBuilder(unittest.TestCase):
         self.assertTrue(result)
         os.unlink(temp_file_name)
 
-if __name__ == '__main__':
-    unittest.main()
-        
-        
-        
 
+if __name__ == "__main__":
+    unittest.main()

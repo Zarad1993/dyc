@@ -2,10 +2,7 @@ import sys
 import fileinput
 import linecache
 import click
-from .utils import (
-    get_leading_whitespace,
-    add_start_end,
-)
+from .utils import get_leading_whitespace, add_start_end
 from .base import Builder
 
 
@@ -36,7 +33,7 @@ class TopBuilder(Builder):
         """
         returned = False
         line = linecache.getline(self.filename, 1)
-        if self.config.get('open') in line:
+        if self.config.get("open") in line:
             returned = True
         linecache.clearcache()
         return returned
