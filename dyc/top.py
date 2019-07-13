@@ -79,7 +79,10 @@ class TopBuilder(Builder):
 
     def confirm(self, polished):
         result = add_start_end(polished)
-        preview_line1, preview_line2 = linecache.getline(self.filename, 1), linecache.getline(self.filename, 2)
+        preview_line1, preview_line2 = (
+            linecache.getline(self.filename, 1),
+            linecache.getline(self.filename, 2),
+        )
         linecache.clearcache()
         try:
             message = click.edit(
