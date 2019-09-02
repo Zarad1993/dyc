@@ -21,20 +21,30 @@ class Builder(object):
         if change:
             patches = change.get('additions')
 
+        fileLines = list(fileinput.input(self.filename))
+        i = 0
+
         for line in fileinput.input(self.filename):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
             keywords = self.config.get('keywords')
-            found = (
-                len(
-                    [
-                        word.lstrip()
-                        for word in line.split(' ')
-                        if word.lstrip() in keywords
-                    ]
-                )
-                > 0
-            )
+            foundList = [word.lstrip() for word in line.split(' ') if word.lstrip() in keywords]
+            found = (len(foundList)> 0)
+            # Checking an unusual format in method declaration
+            if foundList:
+                openP = line.count('(')
+                closeP = line.count(')')
+                if openP == closeP:
+                    pass
+                else:
+                    pos = i
+                    while openP != closeP:
+                        pos += 1
+                        line += fileLines[pos]
+                        openP = line.count('(')
+                        closeP = line.count(')')
+                    lineno = pos + 1
+            i = i + 1
 
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)

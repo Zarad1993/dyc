@@ -1,4 +1,4 @@
-from dyc.utils import get_leading_whitespace, read_yaml, get_indent, get_extension
+from dyc.utils import get_leading_whitespace, read_yaml, get_indent, get_extension, is_one_line_method
 
 
 class TestGetLeadingWhitespace:
@@ -57,3 +57,24 @@ class TestGetExtension:
         for ext in exts:
             got = get_extension(ext)
             assert expected == got
+
+
+class TestCheckReadLineMethod:
+    keys = ['def', 'function']
+    def test_is_one_line_method_complete(self):
+        line = 'function method(a, b, c):'
+        expected = True
+        got = is_one_line_method(line, self.keys)
+        assert expected == got
+        
+    def test_is_one_line_method_incomplete(self):
+        line = 'def method(a, b=(3, 1), c,'
+        expected = False
+        got = is_one_line_method(line, self.keys)
+        assert expected == got
+    
+    def test_is_one_line_method_any_line(self):
+        line = 'length = len(objects)'
+        expected = False
+        got = is_one_line_method(line, self.keys)
+        assert expected == got    

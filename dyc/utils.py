@@ -159,3 +159,18 @@ def get_additions_in_first_hunk(hunk):
     start = int(adds_patch[0])
     end = int(start) + int(adds_patch[1])
     return start, end
+
+
+def is_one_line_method(line, keywords):
+    """
+    Gets True if the line holds a complete method declaration (from 'def to :), 
+    otherwise it gets False
+    ----------
+    str line: Text line
+    """
+    found = [word.lstrip() for word in line.split(' ') if word.lstrip() in keywords]
+    if found:
+        openP = line.count('(')
+        closeP = line.count(')')
+        return openP == closeP
+    return bool(found)
