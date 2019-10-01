@@ -25,7 +25,8 @@ class Builder(object):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
             keywords = self.config.get('keywords')
-            found = (
+            found = false if line.lstrip()[0] in ("#", '"')
+            found = found and (
                 len(
                     [
                         word.lstrip()
