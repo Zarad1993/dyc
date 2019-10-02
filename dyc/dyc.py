@@ -1,3 +1,7 @@
+"""
+This file gets configuration from parser.ParsedConfig
+and handles all the commands from the command line.
+"""
 import click
 from .parser import ParsedConfig
 from .main import DYC

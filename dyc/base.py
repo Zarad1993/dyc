@@ -1,3 +1,6 @@
+"""
+Base file that contains the core classes that are used in dyc.
+"""
 import fileinput
 from .utils import all_files_generator, get_file_lines
 
