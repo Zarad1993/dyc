@@ -270,6 +270,12 @@ To get started.
 $ pip install --editable .
 ```
 
+## With docker
+
+1. docker-compose build
+2. docker-compose run --rm app
+* Do not need ```pip install --editable .```
+
 We use [black](https://github.com/python/black) to maintain a standard format for our code. Contributions must be black formatted to pass CI.
 
 ## License
