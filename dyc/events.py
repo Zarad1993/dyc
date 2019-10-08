@@ -1,3 +1,8 @@
+"""
+This file contains all the event classes used in dyc. It contains
+a Watcher that watches files for changes and a WatchEvent that
+triggers if a file is changed.
+"""
 import sys
 import time
 import logging
