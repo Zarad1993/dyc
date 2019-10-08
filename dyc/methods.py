@@ -1,3 +1,8 @@
+"""
+File for classes that handles the actual business logic of
+the application. Here is the the place where the actual reading,
+parsing and validation of the files happens.
+"""
 import sys
 import re
 import fileinput
