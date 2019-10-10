@@ -9,7 +9,7 @@
 </p>
 
 DYC is a CLI tool that helps with documenting your source code. It will help keep you alert for new methods that were added and not documented.
-Also supports to build a reusable docstring template. Just answer the prompt questions in your terminal to see the effect on your files.
+It also supports to build a reusable docstring template. Just answer the prompt questions in your terminal to see the effect on your files.
 
 * Keep your Docstrings consistent.
 * Document your DIFF patch.
