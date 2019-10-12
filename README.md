@@ -66,7 +66,7 @@ $ dyc diff --watch
 |          Key                |                                                       Description                                                           | Type |
 |:-----------------------:    |:-----------------------------------------------------------------------------------------------------------------------:    |------|
 |         `ignore`            |                                     Known method Names to be ignored from Docstrings                                        | list |
-|        `keywords`           |                            The necessary keyword to search for in a line the triggers actions                               | list |
+|        `keywords`           |                            The necessary keyword to search for in a line that triggers actions                               | list |
 |        `enabled`            |                                   Determine if formatting is enabled for the extension                                      | bool |
 |         `indent`            |                         Indentation in a method. Limited options ['tab', '2 spaces', '4 spaces']                            | str  |
 |     `indent_content`        |                              Confirm if the content of a docstring has to be indented as well                               | bool |
