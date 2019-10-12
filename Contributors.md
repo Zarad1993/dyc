@@ -8,3 +8,4 @@
 * [Björn Olsson Jarl](https://github.com/frangiz)
 * [RCristiano](https://github.com/RCristiano)
 * [Hildebrando Pedroni](https://github.com/HildePedroni) 
+* [Saran Balaji](https://github.com/csaranbalaji)
