@@ -281,3 +281,7 @@ We use [black](https://github.com/python/black) to maintain a standard format fo
 ## License
 
 MIT ©
+
+## Contributors
+
+Find the list of contributors [here](Contributors.md)
