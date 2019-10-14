@@ -5,7 +5,7 @@ import os
 import yaml
 import string
 
-INDENT_OPTIONS = {'tab': '\t', '2 spaces': '  ', 'False': ''}
+INDENT_OPTIONS = {"tab": "\t", "2 spaces": "  ", "False": ""}
 
 
 def get_leading_whitespace(s):
@@ -20,11 +20,11 @@ def get_leading_whitespace(s):
     """
     accumulator = []
     for c in s:
-        if c in ' \t\v\f\r\n':
+        if c in " \t\v\f\r\n":
             accumulator.append(c)
         else:
             break
-    return ''.join(accumulator)
+    return "".join(accumulator)
 
 
 def read_yaml(path):
@@ -35,7 +35,7 @@ def read_yaml(path):
     str path: path of file
     """
     try:
-        with open(path, 'r') as config:
+        with open(path, "r") as config:
             try:
                 return yaml.safe_load(config)
             except yaml.YAMLError as exc:
@@ -45,7 +45,7 @@ def read_yaml(path):
 
 
 class BlankFormatter(string.Formatter):
-    def __init__(self, default=''):
+    def __init__(self, default=""):
         self.default = default
 
     def get_value(self, key, args, kwds):
@@ -65,7 +65,7 @@ def get_indent(space):
     """
     value = INDENT_OPTIONS.get(str(space))
     if value is None:
-        return '    '
+        return "    "
     return value
 
 
@@ -77,9 +77,9 @@ def get_extension(filename):
     str filename: the filename to extract extension from
     """
     try:
-        return os.path.splitext(filename)[1].replace('.', '')
+        return os.path.splitext(filename)[1].replace(".", "")
     except (AttributeError, TypeError):
-        return ''
+        return ""
 
 
 def all_files_generator(extensions=[]):
@@ -91,8 +91,8 @@ def all_files_generator(extensions=[]):
     list extensions: Allowed extensions on a file
     """
     for root, dirs, files in os.walk(os.getcwd()):
-        files = [os.path.join(root, f) for f in files if not f[0] == '.']
-        dirs[:] = [d for d in dirs if not d[0] == '.']
+        files = [os.path.join(root, f) for f in files if not f[0] == "."]
+        dirs[:] = [d for d in dirs if not d[0] == "."]
         if extensions:
             files = [
                 filename for filename in files if get_extension(filename) in extensions
@@ -110,9 +110,9 @@ def add_start_end(string):
     str string: large text
     """
     leading_space = get_leading_whitespace(string)
-    start = '{}## START\n'.format(leading_space)
-    end = '\n{}## END'.format(leading_space)
-    string.split('\n')
+    start = "{}## START\n".format(leading_space)
+    end = "\n{}## END".format(leading_space)
+    string.split("\n")
     result = start + string + end
     return result
 
@@ -125,7 +125,7 @@ def get_file_lines(name):
     str name: filepath and name of file
     """
     lines = 0
-    with open(name, 'r') as stream:
+    with open(name, "r") as stream:
         lines = len(stream.readlines())
     return lines
 
@@ -139,7 +139,7 @@ def get_hunk(patch):
     """
     import re
 
-    pat = r'.*?\@\@(.*)\@\@.*'
+    pat = r".*?\@\@(.*)\@\@.*"
     match = re.findall(pat, patch)
     return [m.strip() for m in match]
 
@@ -155,7 +155,21 @@ def get_additions_in_first_hunk(hunk):
         return None, None
     if len(hunk) < 1:
         return None, None
-    adds_patch = hunk[0].split('+')[-1].split(',')
+    adds_patch = hunk[0].split("+")[-1].split(",")
     start = int(adds_patch[0])
     end = int(start) + int(adds_patch[1])
     return start, end
+
+
+def is_one_line_method(line, keywords):
+    """
+    Gets True if the line holds a complete method declaration (from 'def to :), 
+    otherwise it gets False
+    ----------
+    str line: Text line
+    list keywords: list of keywords like def for python, func for go etc.
+    """
+    found = [word.lstrip() for word in line.split(" ") if word.lstrip() in keywords]
+    if found:
+        return line.count("(") == line.count(")")
+    return bool(found)

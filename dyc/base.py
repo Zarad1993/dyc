@@ -22,22 +22,34 @@ class Builder(object):
 
         patches = []
         if change:
-            patches = change.get('additions')
+            patches = change.get("additions")
+
+        fileLines = list(fileinput.input(self.filename))
+        i = 0
 
         for line in fileinput.input(self.filename):
             filename = fileinput.filename()
             lineno = fileinput.lineno()
-            keywords = self.config.get('keywords')
-            found = (
-                len(
-                    [
-                        word.lstrip()
-                        for word in line.split(' ')
-                        if word.lstrip() in keywords
-                    ]
-                )
-                > 0
-            )
+            keywords = self.config.get("keywords")
+            foundList = [
+                word.lstrip() for word in line.split(" ") if word.lstrip() in keywords
+            ]
+            found = len(foundList) > 0
+            # Checking an unusual format in method declaration
+            if foundList:
+                openP = line.count("(")
+                closeP = line.count(")")
+                if openP == closeP:
+                    pass
+                else:
+                    pos = i
+                    while openP != closeP:
+                        pos += 1
+                        line += fileLines[pos]
+                        openP = line.count("(")
+                        closeP = line.count(")")
+                    lineno = pos + 1
+            i = i + 1
 
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)
@@ -64,10 +76,10 @@ class Builder(object):
         """
         result = False
         for change in patches:
-            start, end = change.get('hunk')
+            start, end = change.get("hunk")
             if start <= lineno <= end:
-                patch = change.get('patch')
-                found = filter(lambda l: line.replace('\n', '') == l, patch.split('\n'))
+                patch = change.get("patch")
+                found = filter(lambda l: line.replace("\n", "") == l, patch.split("\n"))
                 if found:
                     result = True
                     break
@@ -98,7 +110,7 @@ class Builder(object):
 
 class FilesDirector:
 
-    WILD_CARD = ['.', '*']
+    WILD_CARD = [".", "*"]
 
     def prepare_files(self, files=[]):
         """
@@ -131,9 +143,9 @@ class FilesDirector:
         ----------
         list files: Pre-given files list
         """
-        if self.config.get('file_list'):
+        if self.config.get("file_list"):
             # File list has already been passed
-            self.file_list = self.config.get('file_list')
+            self.file_list = self.config.get("file_list")
             return
 
         if len(files):
@@ -155,7 +167,7 @@ class FormatsDirector:
         """
         Function that prepares allowed formats
         """
-        self.formats = {ext.get('extension'): ext for ext in self.config.get('formats')}
+        self.formats = {ext.get("extension"): ext for ext in self.config.get("formats")}
 
 
 class Processor(FilesDirector, FormatsDirector):
@@ -187,6 +199,6 @@ class Processor(FilesDirector, FormatsDirector):
         """
         return list(
             filter(
-                None, map(lambda fmt: fmt.get('extension'), self.config.get('formats'))
+                None, map(lambda fmt: fmt.get("extension"), self.config.get("formats"))
             )
         )
