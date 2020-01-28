@@ -31,6 +31,8 @@ Please join our [IRC discord channel](https://discord.gg/NWUQtRx) if interested.
 $ pip install document-your-code
 ```
 
+
+
 ## Usage
 
 This is intended to work on all programming languages. Kicking off with Python as a starter (Only default formatting added). You can override
@@ -264,10 +266,18 @@ To get started.
 1. Fork this repo.
 2. Clone the project.
 3. Setup virtualenv
-3. In the app folder. Run
+4. In the app folder. Run
 
 ```sh
 $ pip install --editable .
+```
+
+
+Before commiting:
+
+Install the pre-commit hooks 
+```
+pre-commit install
 ```
 
 ## With docker
@@ -275,6 +285,7 @@ $ pip install --editable .
 1. docker-compose build
 2. docker-compose run --rm app
 * Do not need ```pip install --editable .```
+
 
 We use [black](https://github.com/python/black) to maintain a standard format for our code. Contributions must be black formatted to pass CI.
 

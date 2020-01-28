@@ -18,6 +18,7 @@ setup(
         "gitpython==2.1.11",
         "watchdog==0.9.0",
         "pytest==4.4.0",
+        "pre-commit==1.18.1",
     ],
     entry_points={"console_scripts": ["dyc=dyc.dyc:main"]},
     package_data={'': ['*.yaml']},
