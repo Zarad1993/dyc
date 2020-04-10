@@ -9,7 +9,13 @@ import fileinput
 import copy
 import linecache
 import click
-from .utils import get_leading_whitespace, BlankFormatter, get_indent, add_start_end
+from .utils import (
+    get_leading_whitespace,
+    BlankFormatter,
+    get_indent,
+    add_start_end,
+    is_one_line_method,
+)
 from .base import Builder
 import os
 
@@ -35,6 +41,12 @@ class MethodBuilder(Builder):
             start_line
         )  # Where function started
         method_string = start_line
+        if not is_one_line_method(start_line, self.config.get("keywords")):
+            method_string = line
+            linesBackwards = method_string.count("\n") - 1
+            start_leading_space = get_leading_whitespace(
+                linecache.getline(filename, start - linesBackwards)
+            )
         line_within_scope = True
         lineno = start + 1
         line = linecache.getline(filename, lineno)
@@ -151,8 +163,23 @@ class MethodBuilder(Builder):
         for method_interface in self._method_interface_gen():
             if not method_interface:
                 continue
+            fileInput = fileinput.input(method_interface.filename, inplace=True)
 
-            for line in fileinput.input(method_interface.filename, inplace=True):
+            for line in fileInput:
+                tmpLine = line
+                if "def" in line and ":" not in line:
+                    openedP = line.count("(")
+                    closedP = line.count(")")
+                    if openedP == closedP:
+                        continue
+                    else:
+                        while openedP != closedP:
+                            tmpLine += fileInput.readline()
+                            openedP = tmpLine.count("(")
+                            closedP = tmpLine.count(")")
+                            pos += 1
+                        line = tmpLine
+
                 if self._get_name(line) == method_interface.name:
                     if self.config.get("within_scope"):
                         sys.stdout.write(line + method_interface.result + "\n")
@@ -182,7 +209,7 @@ class MethodBuilder(Builder):
         for keyword in self.config.get("keywords", []):
             clear_defs = re.sub("{} ".format(keyword), "", line.strip())
             name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
-            if re.search(r"\((.*)\)", name):
+            if re.search(r"\(([\s\S]*)\)", name):
                 try:
                     name = re.match(r"^[^\(]+", name).group()
                 except:
@@ -321,7 +348,14 @@ class MethodFormatter:
         polished = add_start_end(polished)
         method_split = self.plain.split("\n")
         if self.config.get("within_scope"):
-            method_split.insert(1, polished)
+            # Check if method comes in an unusual format
+            keywords = self.config.get("keywords")
+            firstLine = method_split[0]
+            pos = 1
+            while not is_one_line_method(firstLine, keywords):
+                firstLine += method_split[pos]
+                pos += 1
+            method_split.insert(pos, polished)
         else:
             method_split.insert(0, polished)
 
@@ -453,9 +487,13 @@ class ArgumentDetails(object):
         """
         try:
             ignore = self.config.get("ignore")
-            args = re.search(r"\((.*)\)", self.line).group(1).split(", ")
+            args = re.search(r"\(([\s\S]*)\)", self.line).group(1).split(",")
             self.args = filter(
-                lambda x: x not in ignore, filter(None, [arg.strip() for arg in args])
+                lambda x: x not in ignore,
+                filter(
+                    None,
+                    [arg.replace("\n", "").replace("\t", "").strip() for arg in args],
+                ),
             )
         except:
             pass
