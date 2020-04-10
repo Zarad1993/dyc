@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name="document-your-code",
-    version="0.2.00",
+    version="0.2.0",
     author="Mohammad Albakri",
     author_email="mohammad.albakri93@gmail.com",
     packages=find_packages(),
