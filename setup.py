@@ -16,7 +16,7 @@ setup(
         "click==7.0",
         "pyyaml>=4.2b1",
         "gitpython>=2.1.11",
-        "gitdb2==3.0.1",
+        "gitdb2;python_version>'3.6'",
         "watchdog==0.9.0",
         "pre-commit==1.18.1",
     ],
