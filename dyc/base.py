@@ -2,7 +2,7 @@
 Base file that contains the core classes that are used in dyc.
 """
 import fileinput
-from .utils import all_files_generator, get_file_lines
+from .utils import all_files_generator, get_file_lines, is_one_line_method
 
 
 class Builder(object):
@@ -81,6 +81,11 @@ class Builder(object):
                 patch = change.get("patch")
                 found = filter(lambda l: line.replace("\n", "") == l, patch.split("\n"))
                 if found:
+                    result = True
+                    break
+                # Try to catch unusual declared methods
+                broken_lines = line.split("\n")
+                if len(broken_lines) and not is_one_line_method(broken_lines[0], self.config.get("keywords")):
                     result = True
                     break
         return result

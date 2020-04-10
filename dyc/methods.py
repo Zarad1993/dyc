@@ -170,6 +170,7 @@ class MethodBuilder(Builder):
                 if "def" in line and ":" not in line:
                     openedP = line.count("(")
                     closedP = line.count(")")
+                    pos = 1
                     if openedP == closedP:
                         continue
                     else:
