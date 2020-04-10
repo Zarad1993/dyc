@@ -83,9 +83,12 @@ class Builder(object):
                 if found:
                     result = True
                     break
+
                 # Try to catch unusual declared methods
                 broken_lines = line.split("\n")
-                if len(broken_lines) and not is_one_line_method(broken_lines[0], self.config.get("keywords")):
+                if len(broken_lines) and not is_one_line_method(
+                    broken_lines[0], self.config.get("keywords")
+                ):
                     result = True
                     break
         return result
