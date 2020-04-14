@@ -173,3 +173,16 @@ def is_one_line_method(line, keywords):
     if found:
         return line.count("(") == line.count(")")
     return bool(found)
+
+
+def is_comment(line, comments):
+    """
+    A utility method to tell if the provided line is
+    a comment or not
+
+    Parameters
+    ----------
+    str line: The line string in a file
+    list comments: A list of potential comment keywords
+    """
+    return line.lstrip(' ')[0] in comments

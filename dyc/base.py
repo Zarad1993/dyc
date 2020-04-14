@@ -2,7 +2,7 @@
 Base file that contains the core classes that are used in dyc.
 """
 import fileinput
-from .utils import all_files_generator, get_file_lines, is_one_line_method
+from .utils import all_files_generator, get_file_lines, is_one_line_method, is_comment
 
 
 class Builder(object):
@@ -34,7 +34,9 @@ class Builder(object):
             foundList = [
                 word.lstrip() for word in line.split(" ") if word.lstrip() in keywords
             ]
-            found = len(foundList) > 0
+            found = len(foundList) > 0 and not is_comment(
+                line, self.config.get('comments')
+            )
             # Checking an unusual format in method declaration
             if foundList:
                 openP = line.count("(")

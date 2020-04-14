@@ -18,6 +18,8 @@ formats:
       indent_content: false
       open: '"""'
       close: '"""'
+      comments:
+        - '#'
       break_after_open: true
       break_after_docstring: true
       break_before_close: true

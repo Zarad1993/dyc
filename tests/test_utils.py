@@ -1,14 +1,22 @@
-from dyc.utils import get_leading_whitespace, read_yaml, get_indent, get_extension
+from dyc.utils import (
+    get_leading_whitespace,
+    read_yaml,
+    get_indent,
+    get_extension,
+    is_comment,
+)
 
 
 class TestGetLeadingWhitespace:
     def test_tabs(self):
+        """Test tabs functionality"""
         text = '\t\tHello'
         expected = '\t\t'
         got = get_leading_whitespace(text)
         assert expected == got
 
     def test_whitespace(self):
+        """Test whitespace functionality"""
         space = '                '
         text = '{space}Such a long whitespace'.format(space=space)
         expected = space
@@ -57,3 +65,15 @@ class TestGetExtension:
         for ext in exts:
             got = get_extension(ext)
             assert expected == got
+
+
+class TestIsComment:
+    def test_valid_comments(self):
+        """Testing valid comments"""
+        text = '# Hello World'
+        assert is_comment(text, ['#']) == True
+
+    def test_invalid_comments(self):
+        """Testing invalid comments"""
+        text = '# Hello World'
+        assert is_comment(text, ['//']) == False
