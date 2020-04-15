@@ -167,7 +167,7 @@ class MethodBuilder(Builder):
 
             for line in fileInput:
                 tmpLine = line
-                if "def" in line and ":" not in line:
+                if self._is_method(line) and ":" not in line:
                     openedP = line.count("(")
                     closedP = line.count(")")
                     pos = 1
@@ -217,6 +217,17 @@ class MethodBuilder(Builder):
                     pass
             if name:
                 return name
+
+    def _is_method(self, line):
+        """
+        A predicate method that checks if a line is a
+        method
+
+        Parameters
+        ----------
+        str line: Text string of a line in a file
+        """
+        return line.strip().split(" ")[0] in self.config.get("keywords")
 
 
 class MethodFormatter:
