@@ -68,12 +68,13 @@ $ dyc diff --watch
 |          Key                |                                                       Description                                                           | Type |
 |:-----------------------:    |:-----------------------------------------------------------------------------------------------------------------------:    |------|
 |         `ignore`            |                                     Known method Names to be ignored from Docstrings                                        | list |
-|        `keywords`           |                            The necessary keyword to search for in a line that triggers actions                               | list |
+|        `keywords`           |                            The necessary keyword to search for in a line that triggers actions                              | list |
 |        `enabled`            |                                   Determine if formatting is enabled for the extension                                      | bool |
 |         `indent`            |                         Indentation in a method. Limited options ['tab', '2 spaces', '4 spaces']                            | str  |
 |     `indent_content`        |                              Confirm if the content of a docstring has to be indented as well                               | bool |
 |          `open`             |                                             Starting opener text of a method                                                | str  |
 |         `close`             | Close text of a method. This could be the same as opened, but not all languages opening and closing docstrings are same     | str  |
+|        `comments`           |                                                        Comments symbols                                                     | str  |
 |    `break_after_open`       |                             Do we add a new line after adding the open strings of a method?                                 | bool |
 | `break_after_docstring`     |                                     Do we add a new line after adding the docstring?                                        | bool |
 |   `break_before_close`      |                                   Add a new line before closing docstrings on a method                                      | bool |
