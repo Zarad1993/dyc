@@ -62,8 +62,9 @@ def start(config, files, no_prompts, placeholders):
 @click.option(
     "--watch", help="Add default placeholder when watching", is_flag=True, default=False
 )
+@click.option("--no-prompts", "-n", "no_prompts", is_flag=True, default=False)
 @config
-def diff(config, watch):
+def diff(config, no_prompts, watch):
     """
     This argument will run DYC on DIFF patch only
     """
@@ -82,6 +83,6 @@ def diff(config, watch):
         uncommitted = diff.uncommitted
         paths = [idx.get("path") for idx in uncommitted]
         if len(uncommitted):
-            dyc = DYC(config.plain)
+            dyc = DYC(config.plain, no_prompts=no_prompts)
             dyc.prepare(files=paths)
             dyc.process_methods(diff_only=True, changes=uncommitted)
