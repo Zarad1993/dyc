@@ -13,7 +13,7 @@ class Builder(object):
 
     details = dict()
 
-    def initialize(self, change=None):
+    def initialize(self, no_prompts, change=None):
         """
         The Builder's main method. It stores all the changes that needs to be made
         in `self.details` for a file. Which would then be used to add Docstrings to.
@@ -64,7 +64,7 @@ class Builder(object):
                 result = self.extract_and_set_information(
                     filename, lineno, line, length
                 )
-                if self.validate(result):
+                if self.validate(no_prompts, result):
                     self.details[filename][result.name] = result
 
     def _is_line_part_of_patches(self, lineno, line, patches):
