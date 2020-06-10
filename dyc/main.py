@@ -12,7 +12,7 @@ from .base import Processor
 
 
 class DYC(Processor):
-    def __init__(self, config, no_prompts, details=None, placeholders=False):
+    def __init__(self, config, no_prompts=False, details=None, placeholders=False):
         self.config = config
         self.no_prompts = no_prompts
         self.placeholders = True if no_prompts else placeholders
