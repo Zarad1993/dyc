@@ -14,6 +14,6 @@ class ParsedConfig(Config):
         self.plain = copy.deepcopy(self.default)
         try:
             self.override()
-            self.configErr = False
+            self.config_err = False
         except AttributeError:
-            self.configErr = True
+            self.config_err = True

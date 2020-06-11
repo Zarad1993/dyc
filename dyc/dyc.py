@@ -43,7 +43,7 @@ def start(config, files, no_prompts, placeholders):
     files list going to loop
     over and add missing documentation on.
     """
-    if config.configErr and not no_prompts:
+    if config.config_err and not no_prompts:
         click.echo(
             click.style(
                 "`dyc.yaml` Missing or Incorrectly formatted. USING default settings",
@@ -68,7 +68,7 @@ def diff(config, no_prompts, watch):
     """
     This argument will run DYC on DIFF patch only
     """
-    if config.configErr:
+    if config.config_err:
         click.echo(
             click.style(
                 "`dyc.yaml` Missing or Incorrectly formatted. USING default settings",
