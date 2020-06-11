@@ -1,6 +1,6 @@
 -   repo: local
     hooks:
-    -   id: pre_commit_hook	
+    -   id: pre_commit_hook
         name: pre_commit_hook
         entry: dyc diff
         verbose: true
