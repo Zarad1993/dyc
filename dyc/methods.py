@@ -377,7 +377,7 @@ class MethodFormatter:
                 "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
                 + result
             )
-            message = "\n".join(message.split("\n")[2:])
+            message = result if message == None else "\n".join(message.split("\n")[2:])
         except:
             print("Quitting the program in the editor terminates the process. Thanks")
             sys.exit()
