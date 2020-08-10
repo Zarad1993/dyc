@@ -15,6 +15,15 @@ class DYC(Processor):
     def __init__(self, config, details=None, placeholders=False):
         self.config = config
         self.placeholders = placeholders
+		
+    def file_prompt(self):
+        print("\nFile Prompt \n\r")
+        for filename in self.file_list:
+            add_file = click.confirm(
+                    "Do you want to document file {}?".format(
+                        click.style(filename, fg="green")))
+            if (add_file):
+                self.files_to_document.append(filename)                
 
     def process_methods(self, diff_only=False, changes=[]):
         """
@@ -26,8 +35,8 @@ class DYC(Processor):
         bool diff_only: Use a diff only. Consumed by dyc diff.
         list changes: Changes in a file, mainly use also with dyc diff.
         """
-        print("\nProcessing Methods\n\r")
-        for filename in self.file_list:
+        print("\nProcessing Methods \n\r")
+        for filename in self.files_to_document:
 
             try:
                 change = list(filter(lambda x: x.get("path") == filename, changes))[0]
@@ -65,3 +74,4 @@ class DYC(Processor):
         """
         # self.tops = TopBuilder()
         pass
+	
