@@ -1,8 +1,9 @@
+# Checking if the imported libraries exist
 try:
     from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup, find_packages
-
+# setting up the documentation of your code
 setup(
     name="document-your-code",
     version="0.2.3",
