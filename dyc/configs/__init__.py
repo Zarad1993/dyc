@@ -13,7 +13,7 @@ class Config(object):
 
     def override(self):
         """
-        Entry point to Config, mainly the 
+        Entry point to Config, mainly the
         """
         self._override_basic()
         self._override_formats()
