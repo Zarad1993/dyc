@@ -113,8 +113,12 @@ def add_start_end(string):
     leading_space = get_leading_whitespace(string)
     start = "{}## START\n".format(leading_space)
     end = "\n{}## END".format(leading_space)
-    string.split("\n")
-    result = start + string + end
+    string1 = string.split("\n")
+    stringlist=[]
+    for t in range(len(string1)):
+        appendhash = " #" + string1[t]
+        stringlist.append(appendhash)
+    result = start + '\n'.join(stringlist) + end
     return result
 
 

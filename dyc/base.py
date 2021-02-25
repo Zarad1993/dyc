@@ -1,8 +1,9 @@
 """
 Base file that contains the core classes that are used in dyc.
 """
+import re
 import fileinput
-from .utils import all_files_generator, get_file_lines, is_one_line_method, is_comment
+from utils import all_files_generator, get_file_lines, is_one_line_method, is_comment
 
 
 class Builder(object):
@@ -19,6 +20,7 @@ class Builder(object):
         in `self.details` for a file. Which would then be used to add Docstrings to.
         """
         result = dict()
+        pattern = '\\""".*?\\"""'
 
         patches = []
         if change:
@@ -34,9 +36,7 @@ class Builder(object):
             foundList = [
                 word.lstrip() for word in line.split(" ") if word.lstrip() in keywords
             ]
-            found = len(foundList) > 0 and not is_comment(
-                line, self.config.get('comments')
-            )
+            found = len(foundList) > 0 and not is_comment(line, self.config.get('comments')) and not re.search(pattern,line)
             # Checking an unusual format in method declaration
             if foundList:
                 openP = line.count("(")
@@ -153,6 +153,7 @@ class FilesDirector:
         ----------
         list files: Pre-given files list
         """
+        print(self.config)
         if self.config.get("file_list"):
             # File list has already been passed
             self.file_list = self.config.get("file_list")
@@ -167,7 +168,7 @@ class FilesDirector:
             result += paths
 
         self.file_list = result
-
+    set_files_to_read(['F:/SRH Academics/SEM 2/Python/Project/trial/example.py'])
 
 class FormatsDirector:
 
