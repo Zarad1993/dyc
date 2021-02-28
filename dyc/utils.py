@@ -4,6 +4,7 @@ Reusable methods throughout DYC
 import os
 import yaml
 import string
+import re
 
 INDENT_OPTIONS = {"tab": "\t", "2 spaces": "  ", "False": ""}
 
@@ -113,12 +114,8 @@ def add_start_end(string):
     leading_space = get_leading_whitespace(string)
     start = "{}## START\n".format(leading_space)
     end = "\n{}## END".format(leading_space)
-    string1 = string.split("\n")
-    stringlist=[]
-    for t in range(len(string1)):
-        appendhash = " #" + string1[t]
-        stringlist.append(appendhash)
-    result = start + '\n'.join(stringlist) + end
+    string.split("\n")
+    result = start + string + end
     return result
 
 
@@ -142,8 +139,6 @@ def get_hunk(patch):
     ----------
     str patch: Diff patched text
     """
-    import re
-
     pat = r".*?\@\@(.*)\@\@.*"
     match = re.findall(pat, patch)
     return [m.strip() for m in match]
@@ -175,8 +170,10 @@ def is_one_line_method(line, keywords):
     list keywords: list of keywords like def for python, func for go etc.
     """
     found = [word.lstrip() for word in line.split(" ") if word.lstrip() in keywords]
+    pattern = r'^(def)\s[a-zA-Z0-9_]*\([a-zA-Z0-9_]*\)(\s\:|\:)'
     if found:
-        return line.count("(") == line.count(")")
+        match = re.search(pattern,line)
+        return True if line.count("(") == line.count(")") and match else False
     return bool(found)
 
 
@@ -190,4 +187,6 @@ def is_comment(line, comments):
     str line: The line string in a file
     list comments: A list of potential comment keywords
     """
-    return line.lstrip(' ')[0] in comments
+    pattern = '""".*?"""' 
+    match = re.search(pattern, line)
+    return True if line.lstrip(' ')[0] in comments or match else False

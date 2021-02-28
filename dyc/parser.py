@@ -17,7 +17,8 @@ class ParsedConfig(Config):
         except AttributeError:
             click.echo(
                 click.style(
-                    '`dyc.yaml` Missing or Incorrectly formatted. USING default settings',
-                    fg='cyan',
+                    ''
+                    #'`dyc.yaml` Missing or Incorrectly formatted. USING default settings',
+                    #fg='cyan',
                 )
             )

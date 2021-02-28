@@ -89,7 +89,7 @@ class MethodBuilder(Builder):
         if not result:
             return False
         name = result.name
-        if name not in self.config.get(
+        if name != "" and name not in self.config.get(
             "ignore", []
         ) and not self.is_first_line_documented(result):
             if (
@@ -207,16 +207,19 @@ class MethodBuilder(Builder):
         ----------
         str line: String line that has the method's name
         """
-        for keyword in self.config.get("keywords", []):
-            clear_defs = re.sub("{} ".format(keyword), "", line.strip())
-            name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
-            if re.search(r"\(([\s\S]*)\)", name):
-                try:
-                    name = re.match(r"^[^\(]+", name).group()
-                except:
-                    pass
-            if name:
-                return name
+        if is_one_line_method(line, self.config.get("keywords")):
+            for keyword in self.config.get("keywords", []):
+                clear_defs = re.sub("{} ".format(keyword), "", line.strip())
+                name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
+                if re.search(r"\(([\s\S]*)\)", name):
+                    try:
+                        name = re.match(r"^[^\(]+", name).group()
+                    except:
+                        pass
+                if name:
+                    return name
+        else:
+            return ""
 
     def _is_method(self, line):
         """
