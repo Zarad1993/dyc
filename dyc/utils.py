@@ -170,7 +170,7 @@ def is_one_line_method(line, keywords):
     list keywords: list of keywords like def for python, func for go etc.
     """
     found = [word.lstrip() for word in line.split(" ") if word.lstrip() in keywords]
-    pattern = r'^(def)\s[a-zA-Z0-9_]*\([a-zA-Z0-9_]*\)(\s\:|\:)'
+    pattern = r'^(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s]*\)(\s\:|\:)'
     if found:
         match = re.search(pattern,line)
         return True if line.count("(") == line.count(")") and match else False
@@ -187,6 +187,4 @@ def is_comment(line, comments):
     str line: The line string in a file
     list comments: A list of potential comment keywords
     """
-    pattern = '""".*?"""' 
-    match = re.search(pattern, line)
-    return True if line.lstrip(' ')[0] in comments or match else False
+    return line.lstrip(' ')[0] in comments

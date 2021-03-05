@@ -64,7 +64,12 @@ class MethodBuilder(Builder):
 
         if not end:
             end = length
-
+        #print("\nMethod String: \n",method_string)
+        #print("Initial Line: \n",initial_line)
+        #print("Comparision : ", len(method_string.strip()) , len(initial_line.strip()))
+        if len(method_string.strip()) == len(initial_line.strip()):
+            method_string = ""
+            initial_line = ""
         linecache.clearcache()
         return MethodInterface(
             plain=method_string,
@@ -207,7 +212,7 @@ class MethodBuilder(Builder):
         ----------
         str line: String line that has the method's name
         """
-        if is_one_line_method(line, self.config.get("keywords")):
+        if line != "":
             for keyword in self.config.get("keywords", []):
                 clear_defs = re.sub("{} ".format(keyword), "", line.strip())
                 name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
@@ -216,7 +221,7 @@ class MethodBuilder(Builder):
                         name = re.match(r"^[^\(]+", name).group()
                     except:
                         pass
-                if name:
+                if name:                   
                     return name
         else:
             return ""
