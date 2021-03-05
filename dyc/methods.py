@@ -366,44 +366,45 @@ class MethodFormatter:
         str polished: complete polished string before popping up
         """
         polished = add_start_end(polished)
-        method_split = self.plain.split("\n")
-        if self.config.get("within_scope"):
-            # Check if method comes in an unusual format
-            keywords = self.config.get("keywords")
-            firstLine = method_split[0]
-            pos = 1
-            while not is_one_line_method(firstLine, keywords):
-                firstLine += method_split[pos]
-                pos += 1
-            method_split.insert(pos, polished)
-        else:
-            method_split.insert(0, polished)
+        if self.plain != "":
+            method_split = self.plain.split("\n")
+            if self.config.get("within_scope"):
+                # Check if method comes in an unusual format
+                keywords = self.config.get("keywords")
+                firstLine = method_split[0]
+                pos = 1
+                while not is_one_line_method(firstLine, keywords):
+                    firstLine += method_split[pos]
+                    pos += 1
+                method_split.insert(pos, polished)
+            else:
+                method_split.insert(0, polished)
 
-        try:
-            result = "\n".join(method_split)
-            message = click.edit(
-                "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
-                + result
-            )
-            message = result if message == None else "\n".join(message.split("\n")[2:])
-        except:
-            print("Quitting the program in the editor terminates the process. Thanks")
-            sys.exit()
+            try:
+                result = "\n".join(method_split)
+                message = click.edit(
+                    "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
+                    + result
+                )
+                message = result if message == None else "\n".join(message.split("\n")[2:])
+            except:
+                print("Quitting the program in the editor terminates the process. Thanks")
+                sys.exit()
 
-        final = []
-        start = False
-        end = False
+            final = []
+            start = False
+            end = False
 
-        for x in message.split("\n"):
-            stripped = x.strip()
-            if stripped == "## END":
-                end = True
-            if start and not end:
-                final.append(x)
-            if stripped == "## START":
-                start = True
+            for x in message.split("\n"):
+                stripped = x.strip()
+                if stripped == "## END":
+                    end = True
+                if start and not end:
+                    final.append(x)
+                if stripped == "## START":
+                    start = True
 
-        self.result = "\n".join(final)
+            self.result = "\n".join(final)
 
     def polish(self):
         """
