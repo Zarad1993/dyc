@@ -170,7 +170,7 @@ def is_one_line_method(line, keywords):
     list keywords: list of keywords like def for python, func for go etc.
     """
     found = [word.lstrip() for word in line.split(" ") if word.lstrip() in keywords]
-    pattern = r'^(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s]*\)(\s\:|\:)'
+    pattern = r'^[\s]*(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*\)(\s\:|\:)'
     if found:
         match = re.search(pattern,line)
         return True if line.count("(") == line.count(")") and match else False

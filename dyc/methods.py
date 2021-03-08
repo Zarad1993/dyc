@@ -523,4 +523,4 @@ class ArgumentDetails(object):
         """
         Sanitizes arguments to validate all arguments are correct
         """
-        return map(lambda arg: re.findall(r"[a-zA-Z0-9_]+", arg)[0], self.args)
+        return map(lambda arg: re.findall(r"[a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*", arg)[0], self.args)
