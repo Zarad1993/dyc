@@ -9,13 +9,7 @@ import fileinput
 import copy
 import linecache
 import click
-from .utils import (
-    get_leading_whitespace,
-    BlankFormatter,
-    get_indent,
-    add_start_end,
-    is_one_line_method,
-)
+from .utils import get_leading_whitespace,BlankFormatter,get_indent,add_start_end,is_one_line_method
 from .base import Builder
 import os
 
@@ -139,11 +133,15 @@ class MethodBuilder(Builder):
         str line: The line of the found method
         """
         returned = False
-        for x in range(result.start, result.end):
-            line = linecache.getline(result.filename, x)
-            if self.config.get("open") in line:
-                returned = True
-                break
+        read_first_line=linecache.getline(result.filename, result.start)
+        read_second_line=linecache.getline(result.filename, result.start+1)
+        finalTwoLines=read_first_line+"\n"+read_second_line
+        pattern = r'^[\s]*(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*\)(\s\:|\:)[\n]*[\s]*(""")'  
+        match = re.search(pattern,finalTwoLines)
+        if match :
+            returned = True 
+        else:
+            returned = False
         linecache.clearcache()
         return returned
 

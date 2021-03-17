@@ -38,9 +38,9 @@ def read_yaml(path):
         with open(path, "r") as config:
             try:
                 return yaml.safe_load(config)
-            except yaml.YAMLError as exc:
+            except  yaml.YAMLError as exc:
                 return None
-    except IOError as io_err:
+    except  IOError as io_err:
         return None
 
 
