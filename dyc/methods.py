@@ -9,7 +9,13 @@ import fileinput
 import copy
 import linecache
 import click
-from .utils import get_leading_whitespace,BlankFormatter,get_indent,add_start_end,is_one_line_method
+from .utils import (
+    get_leading_whitespace,
+    BlankFormatter,
+    get_indent,
+    add_start_end,
+    is_one_line_method,
+)
 from .base import Builder
 import os
 
