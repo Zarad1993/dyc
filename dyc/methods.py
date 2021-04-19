@@ -144,10 +144,7 @@ class MethodBuilder(Builder):
         finalTwoLines=read_first_line+"\n"+read_second_line
         pattern = r'^[\s]*(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*\)(\s\:|\:)[\n]*[\s]*(""")'  
         match = re.search(pattern,finalTwoLines)
-        if match :
-            returned = True 
-        else:
-            returned = False
+        returned = True if match else False
         linecache.clearcache()
         return returned
 
