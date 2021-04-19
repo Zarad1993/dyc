@@ -8,6 +8,7 @@ is constructed here. It performs all the readings
 import click
 from .utils import get_extension
 from .methods import MethodBuilder
+from .top import TopBuilder
 from .base import Processor
 
 
@@ -58,10 +59,17 @@ class DYC(Processor):
         # self.classes = ClassesBuilder()
         pass
 
-    def process_top(self):
+    def process_top(self, diff_only=False):
         """
-        Main method that documents a top of a file. Still
-        TODO
+        Main method that documents a top of a file.
         """
-        # self.tops = TopBuilder()
-        pass
+        print("\nProcessing Top\n\r")
+        for filename in self.file_list:
+
+            extension = get_extension(filename)
+            fmt = self.formats.get(extension)
+            top_cnf = fmt.get("top", {})
+            builder = TopBuilder(filename, top_cnf, placeholders=self.placeholders)
+            builder.prompts()
+            builder.apply()
+            builder.clear(filename)

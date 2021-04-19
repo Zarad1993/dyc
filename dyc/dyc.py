@@ -47,6 +47,7 @@ def start(config, files, placeholders):
     dyc = DYC(config.plain, placeholders=placeholders)
     dyc.prepare()
     dyc.process_methods()
+    dyc.process_top()
 
 
 @main.command()
