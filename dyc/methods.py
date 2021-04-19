@@ -64,7 +64,12 @@ class MethodBuilder(Builder):
 
         if not end:
             end = length
-
+        #print("\nMethod String: \n",method_string)
+        #print("Initial Line: \n",initial_line)
+        #print("Comparision : ", len(method_string.strip()) , len(initial_line.strip()))
+        if len(method_string.strip()) == len(initial_line.strip()):
+            method_string = ""
+            initial_line = ""
         linecache.clearcache()
         return MethodInterface(
             plain=method_string,
@@ -89,7 +94,7 @@ class MethodBuilder(Builder):
         if not result:
             return False
         name = result.name
-        if name not in self.config.get(
+        if name != "" and name not in self.config.get(
             "ignore", []
         ) and not self.is_first_line_documented(result):
             if (
@@ -207,16 +212,19 @@ class MethodBuilder(Builder):
         ----------
         str line: String line that has the method's name
         """
-        for keyword in self.config.get("keywords", []):
-            clear_defs = re.sub("{} ".format(keyword), "", line.strip())
-            name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
-            if re.search(r"\(([\s\S]*)\)", name):
-                try:
-                    name = re.match(r"^[^\(]+", name).group()
-                except:
-                    pass
-            if name:
-                return name
+        if line != "":
+            for keyword in self.config.get("keywords", []):
+                clear_defs = re.sub("{} ".format(keyword), "", line.strip())
+                name = re.sub(r"\([^)]*\)\:", "", clear_defs).strip()
+                if re.search(r"\(([\s\S]*)\)", name):
+                    try:
+                        name = re.match(r"^[^\(]+", name).group()
+                    except:
+                        pass
+                if name:                   
+                    return name
+        else:
+            return ""
 
     def _is_method(self, line):
         """
@@ -358,44 +366,45 @@ class MethodFormatter:
         str polished: complete polished string before popping up
         """
         polished = add_start_end(polished)
-        method_split = self.plain.split("\n")
-        if self.config.get("within_scope"):
-            # Check if method comes in an unusual format
-            keywords = self.config.get("keywords")
-            firstLine = method_split[0]
-            pos = 1
-            while not is_one_line_method(firstLine, keywords):
-                firstLine += method_split[pos]
-                pos += 1
-            method_split.insert(pos, polished)
-        else:
-            method_split.insert(0, polished)
+        if self.plain != "":
+            method_split = self.plain.split("\n")
+            if self.config.get("within_scope"):
+                # Check if method comes in an unusual format
+                keywords = self.config.get("keywords")
+                firstLine = method_split[0]
+                pos = 1
+                while not is_one_line_method(firstLine, keywords):
+                    firstLine += method_split[pos]
+                    pos += 1
+                method_split.insert(pos, polished)
+            else:
+                method_split.insert(0, polished)
 
-        try:
-            result = "\n".join(method_split)
-            message = click.edit(
-                "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
-                + result
-            )
-            message = result if message == None else "\n".join(message.split("\n")[2:])
-        except:
-            print("Quitting the program in the editor terminates the process. Thanks")
-            sys.exit()
+            try:
+                result = "\n".join(method_split)
+                message = click.edit(
+                    "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
+                    + result
+                )
+                message = result if message == None else "\n".join(message.split("\n")[2:])
+            except:
+                print("Quitting the program in the editor terminates the process. Thanks")
+                sys.exit()
 
-        final = []
-        start = False
-        end = False
+            final = []
+            start = False
+            end = False
 
-        for x in message.split("\n"):
-            stripped = x.strip()
-            if stripped == "## END":
-                end = True
-            if start and not end:
-                final.append(x)
-            if stripped == "## START":
-                start = True
+            for x in message.split("\n"):
+                stripped = x.strip()
+                if stripped == "## END":
+                    end = True
+                if start and not end:
+                    final.append(x)
+                if stripped == "## START":
+                    start = True
 
-        self.result = "\n".join(final)
+            self.result = "\n".join(final)
 
     def polish(self):
         """
@@ -514,4 +523,4 @@ class ArgumentDetails(object):
         """
         Sanitizes arguments to validate all arguments are correct
         """
-        return map(lambda arg: re.findall(r"[a-zA-Z0-9_]+", arg)[0], self.args)
+        return map(lambda arg: re.findall(r"[a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*", arg)[0], self.args)

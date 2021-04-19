@@ -26,7 +26,6 @@ class Builder(object):
 
         fileLines = list(fileinput.input(self.filename))
         i = 0
-
         for line in fileinput.input(self.filename):
             filename = fileinput.filename()
             lineno = fileinput.lineno()

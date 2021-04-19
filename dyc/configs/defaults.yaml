@@ -36,3 +36,4 @@ formats:
         - self
     class:
       keywords: ['class']
+      

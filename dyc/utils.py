@@ -4,6 +4,7 @@ Reusable methods throughout DYC
 import os
 import yaml
 import string
+import re
 
 INDENT_OPTIONS = {"tab": "\t", "2 spaces": "  ", "False": ""}
 
@@ -138,8 +139,6 @@ def get_hunk(patch):
     ----------
     str patch: Diff patched text
     """
-    import re
-
     pat = r".*?\@\@(.*)\@\@.*"
     match = re.findall(pat, patch)
     return [m.strip() for m in match]
@@ -171,8 +170,10 @@ def is_one_line_method(line, keywords):
     list keywords: list of keywords like def for python, func for go etc.
     """
     found = [word.lstrip() for word in line.split(" ") if word.lstrip() in keywords]
+    pattern = r'^[\s]*(def)\s[a-zA-Z0-9\_]*\([a-zA-Z0-9\_\,\s\=\[\]\(\)\{\}\*\&\%\!\-\"\'\+\;\.]*\)(\s\:|\:)'
     if found:
-        return line.count("(") == line.count(")")
+        match = re.search(pattern,line)
+        return True if line.count("(") == line.count(")") and match else False
     return bool(found)
 
 
