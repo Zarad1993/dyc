@@ -46,8 +46,9 @@ def start(config, files, placeholders):
         config.plain['file_list'] = list(files)
     dyc = DYC(config.plain, placeholders=placeholders)
     dyc.prepare()
-    dyc.process_methods()
-    dyc.process_top()
+    # dyc.process_methods()
+    # dyc.process_top()
+    dyc.process_classes()
 
 
 @main.command()

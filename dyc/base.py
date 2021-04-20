@@ -53,6 +53,7 @@ class Builder(object):
                     lineno = pos + 1
             i = i + 1
 
+
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)
 

@@ -9,6 +9,7 @@ import click
 from .utils import get_extension
 from .methods import MethodBuilder
 from .top import TopBuilder
+from .classes import ClassBuilder
 from .base import Processor
 
 
@@ -54,8 +55,19 @@ class DYC(Processor):
 
     def process_classes(self):
         """
-        Main method that documents Classes in a file. Still TODO
+        Main method that documents Classes in a file.
         """
+        print("\nProcessing Classes\n\r")
+        for filename in self.file_list:
+            extension = get_extension(filename)
+            fmt = self.formats.get(extension)
+            classes_cnf = fmt.get("class", {})
+            classes_cnf["arguments"] = fmt.get("arguments")
+            builder = ClassBuilder(filename, classes_cnf, placeholders=self.placeholders)
+            builder.initialize()
+            builder.prompts()
+            # builder.apply()
+            # builder.clear(filename)
         # self.classes = ClassesBuilder()
         pass
 
