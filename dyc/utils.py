@@ -164,7 +164,7 @@ def get_additions_in_first_hunk(hunk):
 
 def is_one_line_method(line, keywords):
     """
-    Gets True if the line holds a complete method declaration (from 'def to :), 
+    Gets True if the line holds a complete method declaration (from 'def to :),
     otherwise it gets False
     ----------
     str line: Text line
