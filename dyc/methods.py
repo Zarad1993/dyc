@@ -78,7 +78,7 @@ class MethodBuilder(Builder):
             placeholders=self.placeholders,
         )
 
-    def validate(self, result):
+    def validate(self, no_prompts, result):
         """
         An abstract validator method that checks if the method is
         still valid and gives the final decision
@@ -95,13 +95,15 @@ class MethodBuilder(Builder):
             if (
                 self.filename not in self.already_printed_filepaths
             ):  # Print file of method to document
-                click.echo(
-                    "\n\nIn file {} :\n".format(
-                        click.style(
-                            os.path.join(*self.filename.split(os.sep)[-3:]), fg="red"
+                if not no_prompts:
+                    click.echo(
+                        "\n\nIn file {} :\n".format(
+                            click.style(
+                                os.path.join(*self.filename.split(os.sep)[-3:]),
+                                fg="red",
+                            )
                         )
                     )
-                )
                 self.already_printed_filepaths.append(self.filename)
             confirmed = (
                 True

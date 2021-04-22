@@ -14,10 +14,6 @@ class ParsedConfig(Config):
         self.plain = copy.deepcopy(self.default)
         try:
             self.override()
+            self.config_err = False
         except AttributeError:
-            click.echo(
-                click.style(
-                    '`dyc.yaml` Missing or Incorrectly formatted. USING default settings',
-                    fg='cyan',
-                )
-            )
+            self.config_err = True
