@@ -35,7 +35,7 @@ class Builder(object):
                 word.lstrip() for word in line.split(" ") if word.lstrip() in keywords
             ]
             found = len(foundList) > 0 and not is_comment(
-                line, self.config.get('comments')
+                line, self.config.get("comments")
             )
             # Checking an unusual format in method declaration
             if foundList:
@@ -52,7 +52,6 @@ class Builder(object):
                         closeP = line.count(")")
                     lineno = pos + 1
             i = i + 1
-
 
             if change and found:
                 found = self._is_line_part_of_patches(lineno, line, patches)

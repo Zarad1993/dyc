@@ -164,7 +164,7 @@ def get_additions_in_first_hunk(hunk):
 
 def is_one_line_method(line, keywords):
     """
-    Gets True if the line holds a complete method declaration (from 'def to :), 
+    Gets True if the line holds a complete method declaration (from 'def to :),
     otherwise it gets False
     ----------
     str line: Text line
@@ -186,4 +186,4 @@ def is_comment(line, comments):
     str line: The line string in a file
     list comments: A list of potential comment keywords
     """
-    return line.lstrip(' ')[0] in comments
+    return line.lstrip(" ")[0] in comments

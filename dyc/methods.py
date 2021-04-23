@@ -43,7 +43,7 @@ class MethodBuilder(Builder):
         method_string = start_line
         if not is_one_line_method(start_line, self.config.get("keywords")):
             method_string = line
-            linesBackwards = method_string.count("\n")  - 1
+            linesBackwards = method_string.count("\n") - 1
             start_leading_space = get_leading_whitespace(
                 linecache.getline(filename, start - linesBackwards)
             )

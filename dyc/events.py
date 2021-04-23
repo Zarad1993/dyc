@@ -27,14 +27,14 @@ class WatchEvent(LoggingEventHandler):
         diff = Diff(self.config.plain)
         uncommitted = diff.uncommitted
         paths = [
-            idx.get('path')
+            idx.get("path")
             for idx in uncommitted
-            if './{}'.format(idx.get('path')) == event.src_path
+            if "./{}".format(idx.get("path")) == event.src_path
         ]
         filtered = [
             idx
             for idx in uncommitted
-            if './{}'.format(idx.get('path')) == event.src_path
+            if "./{}".format(idx.get("path")) == event.src_path
         ]
         if len(filtered):
             dyc = DYC(self.config.plain, placeholders=True)
@@ -57,12 +57,12 @@ class Watcher:
         observer = Observer()
         event_handler = WatchEvent()
         event_handler.config = config
-        observer.schedule(event_handler, '.', recursive=True)
+        observer.schedule(event_handler, ".", recursive=True)
         observer.start()
         try:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
             observer.stop()
-            print('Quitting..')
+            print("Quitting..")
         observer.join()
