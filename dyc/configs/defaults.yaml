@@ -48,3 +48,9 @@ formats:
       break_before_close: true
       words_per_line: 10
       within_scope: true
+    parents:
+      title: 'Inheritance'
+      underline: true
+      add_type: false
+      inline: false
+      prefix: ''

@@ -62,14 +62,14 @@ class DYC(Processor):
             extension = get_extension(filename)
             fmt = self.formats.get(extension)
             classes_cnf = fmt.get("class", {})
-            classes_cnf["arguments"] = fmt.get("arguments")
-            builder = ClassBuilder(filename, classes_cnf, placeholders=self.placeholders)
+            classes_cnf["parents"] = fmt.get("parents")
+            builder = ClassBuilder(
+                filename, classes_cnf, placeholders=self.placeholders
+            )
             builder.initialize()
             builder.prompts()
-            # builder.apply()
-            # builder.clear(filename)
-        # self.classes = ClassesBuilder()
-        pass
+            builder.apply()
+            builder.clear(filename)
 
     def process_top(self, diff_only=False):
         """
