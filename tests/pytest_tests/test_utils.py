@@ -9,6 +9,13 @@ from dyc.utils import (
 
 class TestGetLeadingWhitespace:
     def test_tabs(self):
+        """
+        Test getting a 'tab' indent from 'get_indent' utility function.
+
+        Parameters
+        ----------
+
+        """
         """Test tabs functionality"""
         text = '\t\tHello'
         expected = '\t\t'
@@ -26,6 +33,13 @@ class TestGetLeadingWhitespace:
 
 class TestReadYaml:
     def test_should_return_none_if_not_found(self):
+        """
+        Test should return 'None' if file does not exist.
+
+        Parameters
+        ----------
+
+        """
         random_path = '/path/to/non/existing/file.yaml'
         expected = None
         got = read_yaml(random_path)
@@ -34,32 +48,84 @@ class TestReadYaml:
 
 class TestGetIndent:
     def test_tabs(self):
+        """
+        Test getting a 'tab' indent from 'get_indent' utility function.
+
+        Parameters
+        ----------
+
+        """
         assert get_indent('tab') == '\t'
 
     def test_2_spaces(self):
+        """
+        Test getting a 2-space indent from 'get_indent' utility function.
+
+        Parameters
+        ----------
+
+        """
         assert get_indent('2 spaces') == '  '
 
     def test_falsy_value(self):
+        """
+        Test getting an empty ('falsy') indent from 'get_indent' utility function.
+
+        Parameters
+        ----------
+
+        """
         assert get_indent(False) == ''
 
     def test_default_4_spaces(self):
+        """
+        Test getting a default indent from 'get_indent' utility function and
+        verify it is 4 spaces.
+
+        Parameters
+        ----------
+
+        """
         assert get_indent(None) == '    '
 
 
 class TestGetExtension:
     def test_existing_extension_valid(self):
+        """
+        Test that 'get_extension' correctly returns filename extension when one exists.
+
+        Parameters
+        ----------
+
+        """
         ext = 'file.puk'
         expected = 'puk'
         got = get_extension(ext)
         assert expected == got
 
     def test_non_existing_extension(self):
+        """
+        Test that 'get_extension' returns an empty string when a filename
+        lacks an extension.
+
+        Parameters
+        ----------
+
+        """
         ext = 'file'
         expected = ''
         got = get_extension(ext)
         assert expected == got
 
     def test_wrong_extension_type(self):
+        """
+        Test that 'get_extension' returns an empty string when provided invalid
+        (non-string) arguments.
+
+        Parameters
+        ----------
+
+        """
         exts = [dict(), False, True, [], 123]
         expected = ''
         for ext in exts:
