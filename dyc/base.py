@@ -6,11 +6,11 @@ from .utils import all_files_generator, get_file_lines, is_one_line_method, is_c
 
 
 class Builder(object):
-    def __init__(self, filename, config, placeholders=False, test=False):
+    def __init__(self, filename, config, placeholders=False, skip_confirm=False):
         self.filename = filename
         self.config = config
         self.placeholders = placeholders
-        self.test = test
+        self.skip_confirm = skip_confirm
 
     details = dict()
 

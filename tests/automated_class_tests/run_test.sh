@@ -38,10 +38,10 @@
 # Originals are the backups. The copies here will be modified.
 cp ../input_files_original/class_test_$1.py .
 
-# Use the '--test' flag to bypass the text editor opened by Click
+# Use the '--skip-confirm' flag to bypass the text editor opened by Click
 # in the DYC program as it's problematic for automated testing and 
 # is not needed anyway.
-dyc start --test < ../user_input/class_test_$1.in
+dyc start --skip-confirm < ../user_input/class_test_$1.in
 
 # Move the modified files to the 'outputs' folder.
 mv ./class_test_$1.py ../outputs

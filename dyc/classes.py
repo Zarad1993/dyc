@@ -140,7 +140,7 @@ class ClassBuilder(Builder):
             config=self.config,
             leading_space=get_leading_whitespace(initial_line),
             placeholders=self.placeholders,
-            test=self.test,
+            skip_confirm=self.skip_confirm,
         )
 
     def extract_classes(self, line):
@@ -242,7 +242,7 @@ class ClassFormatter:
     formatted_string = "{open}{break_after_open}{class_docstring}{break_after_docstring}{empty_line}{parents_format}{break_before_close}{close}"
     fmt = BlankFormatter()
 
-    def format(self, test):
+    def format(self, skip_confirm):
         """
         Public formatting method that executes a pattern of methods to
         complete the process
@@ -253,7 +253,7 @@ class ClassFormatter:
         self.result = self.fmt.format(self.formatted_string, **self.class_format)
         self.add_indentation()
         self.polish()
-        self.test = test
+        self.skip_confirm = skip_confirm
 
     def wrap_strings(self, words):
         """
@@ -384,7 +384,7 @@ class ClassFormatter:
             result = "\n".join(class_split)
 
             # If running an automated test, skip the editor confirmation
-            if self.test:
+            if self.skip_confirm:
                 message = result
             else:
                 message = click.edit(
@@ -437,7 +437,7 @@ class ClassInterface(ClassFormatter):
         config,
         leading_space,
         placeholders,
-        test,
+        skip_confirm,
     ):
         self.plain = plain
         self.name = name
@@ -450,12 +450,12 @@ class ClassInterface(ClassFormatter):
         self.config = config
         self.leading_space = leading_space
         self.placeholders = placeholders
-        self.test = test
+        self.skip_confirm = skip_confirm
 
     def prompt(self):
         self._prompt_docstring()
         self._prompt_parents()
-        self.format(test=self.test)
+        self.format(skip_confirm=self.skip_confirm)
 
     def _prompt_docstring(self):
         """

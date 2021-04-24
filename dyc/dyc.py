@@ -34,9 +34,9 @@ def main(config):
 @main.command()
 @click.option("--placeholders", is_flag=True, default=False)
 @click.argument("files", nargs=-1, type=click.Path(exists=True), required=False)
-@click.option("-t", "--test", required=False, default=False, is_flag=True)
+@click.option("--skip-confirm", required=False, default=False, is_flag=True)
 @config
-def start(config, files, placeholders, test):
+def start(config, files, placeholders, skip_confirm):
     """
     This is the entry point of starting DYC for the whole project.
     When you run `dyc start`. ParsedConfig will wrap all the
@@ -45,7 +45,7 @@ def start(config, files, placeholders, test):
     """
     if files:
         config.plain["file_list"] = list(files)
-    dyc = DYC(config.plain, placeholders=placeholders, test=test)
+    dyc = DYC(config.plain, placeholders=placeholders, skip_confirm=skip_confirm)
     dyc.prepare()
     dyc.process_methods()
     dyc.process_top()

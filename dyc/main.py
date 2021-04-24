@@ -14,10 +14,10 @@ from .base import Processor
 
 
 class DYC(Processor):
-    def __init__(self, config, details=None, placeholders=False, test=False):
+    def __init__(self, config, details=None, placeholders=False, skip_confirm=False):
         self.config = config
         self.placeholders = placeholders
-        self.test = test
+        self.skip_confirm = skip_confirm
 
     def process_methods(self, diff_only=False, changes=[]):
         """
@@ -47,7 +47,10 @@ class DYC(Processor):
             method_cnf = fmt.get("method", {})
             method_cnf["arguments"] = fmt.get("arguments")
             builder = MethodBuilder(
-                filename, method_cnf, placeholders=self.placeholders, test=self.test
+                filename,
+                method_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
             )
             builder.initialize(change=change)
             builder.prompts()
@@ -65,7 +68,10 @@ class DYC(Processor):
             classes_cnf = fmt.get("class", {})
             classes_cnf["parents"] = fmt.get("parents")
             builder = ClassBuilder(
-                filename, classes_cnf, placeholders=self.placeholders, test=self.test
+                filename,
+                classes_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
             )
             builder.initialize()
             builder.prompts()
@@ -83,7 +89,10 @@ class DYC(Processor):
             fmt = self.formats.get(extension)
             top_cnf = fmt.get("top", {})
             builder = TopBuilder(
-                filename, top_cnf, placeholders=self.placeholders, test=self.test
+                filename,
+                top_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
             )
             builder.prompts()
             builder.apply()
