@@ -9,3 +9,5 @@
 * [RCristiano](https://github.com/RCristiano)
 * [Hildebrando Pedroni](https://github.com/HildePedroni) 
 * [Saran Balaji](https://github.com/csaranbalaji)
+* [Ashir Gupta](https://github.com/AshirGuptash) 
+* [Calvin Kerns](https://github.com/calkerns)
