@@ -82,7 +82,9 @@ class DYC(Processor):
             extension = get_extension(filename)
             fmt = self.formats.get(extension)
             top_cnf = fmt.get("top", {})
-            builder = TopBuilder(filename, top_cnf, placeholders=self.placeholders, test=self.test)
+            builder = TopBuilder(
+                filename, top_cnf, placeholders=self.placeholders, test=self.test
+            )
             builder.prompts()
             builder.apply()
             builder.clear(filename)

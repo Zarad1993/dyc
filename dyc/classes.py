@@ -73,10 +73,6 @@ class ClassBuilder(Builder):
         read_first_line = linecache.getline(result.filename, result.start)
         read_second_line = linecache.getline(result.filename, result.start + 1)
         finalTwoLines = read_first_line + "\n" + read_second_line
-        # 1. Changed long regex since the assumption is that the line already has the keyword (e.g. def, class) in it
-        # 2. Can use a simpler regex
-        # 3. Potentially replace """ with config[class][open] as value
-
         # The open_brace_pattern is """ by default, but can be configured in the yml files
         open_brace_pattern = self.config.get("open", None)
         pattern = r":\n\s*?({})".format(open_brace_pattern)
@@ -144,7 +140,7 @@ class ClassBuilder(Builder):
             config=self.config,
             leading_space=get_leading_whitespace(initial_line),
             placeholders=self.placeholders,
-            test=self.test
+            test=self.test,
         )
 
     def extract_classes(self, line):
@@ -167,7 +163,9 @@ class ClassBuilder(Builder):
             class_interface.prompt() if class_interface else None
 
     def _class_interface_gen(self):
-        # For each ClassInterface object in details[filename][class_name]
+        """
+        A generator that yields the class interfaces
+        """
         if not self.details:
             yield None
         for filename, func_pack in self.details.items():
@@ -385,7 +383,7 @@ class ClassFormatter:
         try:
             result = "\n".join(class_split)
 
-            # If running an automated test
+            # If running an automated test, skip the editor confirmation
             if self.test:
                 message = result
             else:
@@ -393,7 +391,9 @@ class ClassFormatter:
                     "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
                     + result
                 )
-                message = result if message == None else "\n".join(message.split("\n")[2:])
+                message = (
+                    result if message == None else "\n".join(message.split("\n")[2:])
+                )
         except:
             print("Quitting the program in the editor terminates the process. Thanks")
             sys.exit()
@@ -520,8 +520,9 @@ class ClassDetails(object):
         """
         Sanitizes classes to validate all classes are correct
         """
-        # Updated filter function to remove invalid parent names
-        return list(filter(
-            lambda parent: not re.findall(r"[^a-zA-Z0-9_]", parent),
-            self.parents
-        ))
+        # Updated filter function to remove invalid parent names due to bad syntax
+        return list(
+            filter(
+                lambda parent: not re.findall(r"[^a-zA-Z0-9_]", parent), self.parents
+            )
+        )
