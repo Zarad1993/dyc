@@ -47,7 +47,7 @@ dyc start --test < ../user_input/class_test_$1.in
 mv ./class_test_$1.py ../outputs
 
 # Compare the modified test case to the oracle
-diff ../outputs/class_test_$1.py ../oracles/class_test_$1_correct.py && \
+diff --ignore-trailing-space ../outputs/class_test_$1.py ../oracles/class_test_$1_correct.py && \
 ( echo "" && \
 echo "========== TEST CASE PASS ==========" ) || \
 echo "\nX X X X X TEST CASE FAIL X X X X X" 

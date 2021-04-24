@@ -1,4 +1,4 @@
-class myClass():
+class myClass:
     """
     This is myClass
 
@@ -6,6 +6,7 @@ class myClass():
     -----------
 
     """
+
     x = 1
 
     class myClass1(Parent1):
@@ -14,14 +15,16 @@ class myClass():
 
         Inheritance
         -----------
-        
+
         """
+
         y = 1
 
         class myClass2(Parent1):
             """
             Test
             """
+
             z = 1
 
     class myClass3(Parent1):
@@ -30,9 +33,11 @@ class myClass():
 
         Inheritance
         -----------
-        
+
         """
+
         a = 1
+
 
 class myClass4(Parent1, Parent1):
     """
@@ -40,6 +45,7 @@ class myClass4(Parent1, Parent1):
 
     Inheritance
     -----------
-    
+
     """
+
     b = 1
