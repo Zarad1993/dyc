@@ -14,9 +14,10 @@ from .base import Processor
 
 
 class DYC(Processor):
-    def __init__(self, config, details=None, placeholders=False):
+    def __init__(self, config, details=None, placeholders=False, test=False):
         self.config = config
         self.placeholders = placeholders
+        self.test = test
 
     def process_methods(self, diff_only=False, changes=[]):
         """
@@ -46,7 +47,7 @@ class DYC(Processor):
             method_cnf = fmt.get("method", {})
             method_cnf["arguments"] = fmt.get("arguments")
             builder = MethodBuilder(
-                filename, method_cnf, placeholders=self.placeholders
+                filename, method_cnf, placeholders=self.placeholders, test=self.test
             )
             builder.initialize(change=change)
             builder.prompts()
@@ -64,7 +65,7 @@ class DYC(Processor):
             classes_cnf = fmt.get("class", {})
             classes_cnf["parents"] = fmt.get("parents")
             builder = ClassBuilder(
-                filename, classes_cnf, placeholders=self.placeholders
+                filename, classes_cnf, placeholders=self.placeholders, test=self.test
             )
             builder.initialize()
             builder.prompts()
@@ -81,7 +82,7 @@ class DYC(Processor):
             extension = get_extension(filename)
             fmt = self.formats.get(extension)
             top_cnf = fmt.get("top", {})
-            builder = TopBuilder(filename, top_cnf, placeholders=self.placeholders)
+            builder = TopBuilder(filename, top_cnf, placeholders=self.placeholders, test=self.test)
             builder.prompts()
             builder.apply()
             builder.clear(filename)

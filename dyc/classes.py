@@ -144,6 +144,7 @@ class ClassBuilder(Builder):
             config=self.config,
             leading_space=get_leading_whitespace(initial_line),
             placeholders=self.placeholders,
+            test=self.test
         )
 
     def extract_classes(self, line):
@@ -167,7 +168,6 @@ class ClassBuilder(Builder):
 
     def _class_interface_gen(self):
         # For each ClassInterface object in details[filename][class_name]
-        pass
         if not self.details:
             yield None
         for filename, func_pack in self.details.items():
@@ -227,7 +227,6 @@ class ClassBuilder(Builder):
             if name:
                 return name
 
-    # Dumb duplicate of _is_class
     def _is_class(self, line):
         """
         A predicate method that checks if a line is a
@@ -245,7 +244,7 @@ class ClassFormatter:
     formatted_string = "{open}{break_after_open}{class_docstring}{break_after_docstring}{empty_line}{parents_format}{break_before_close}{close}"
     fmt = BlankFormatter()
 
-    def format(self):
+    def format(self, test):
         """
         Public formatting method that executes a pattern of methods to
         complete the process
@@ -256,6 +255,7 @@ class ClassFormatter:
         self.result = self.fmt.format(self.formatted_string, **self.class_format)
         self.add_indentation()
         self.polish()
+        self.test = test
 
     def wrap_strings(self, words):
         """
@@ -384,11 +384,16 @@ class ClassFormatter:
 
         try:
             result = "\n".join(class_split)
-            message = click.edit(
-                "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
-                + result
-            )
-            message = result if message == None else "\n".join(message.split("\n")[2:])
+
+            # If running an automated test
+            if self.test:
+                message = result
+            else:
+                message = click.edit(
+                    "## CONFIRM: MODIFY DOCSTRING BETWEEN START AND END LINES ONLY\n\n"
+                    + result
+                )
+                message = result if message == None else "\n".join(message.split("\n")[2:])
         except:
             print("Quitting the program in the editor terminates the process. Thanks")
             sys.exit()
@@ -432,6 +437,7 @@ class ClassInterface(ClassFormatter):
         config,
         leading_space,
         placeholders,
+        test,
     ):
         self.plain = plain
         self.name = name
@@ -444,11 +450,12 @@ class ClassInterface(ClassFormatter):
         self.config = config
         self.leading_space = leading_space
         self.placeholders = placeholders
+        self.test = test
 
     def prompt(self):
         self._prompt_docstring()
         self._prompt_parents()
-        self.format()
+        self.format(test=self.test)
 
     def _prompt_docstring(self):
         """
@@ -507,10 +514,14 @@ class ClassDetails(object):
             ]
         except:
             pass
-        self.parents = [parent for parent in self.parents if parent != '']
+        self.parents = [parent for parent in self.parents if parent != ""]
 
     def sanitize(self):
         """
         Sanitizes classes to validate all classes are correct
         """
-        return map(lambda parent: re.findall(r"[a-zA-Z0-9_]+", parent)[0], self.parents)
+        # Updated filter function to remove invalid parent names
+        return list(filter(
+            lambda parent: not re.findall(r"[^a-zA-Z0-9_]", parent),
+            self.parents
+        ))
