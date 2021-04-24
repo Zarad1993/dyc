@@ -27,7 +27,7 @@
 #           where <file_num> is some integer.
 #         - Store the file in "oracles/".
 # 1. Ensure your test cases are in the 'input_files_original/' folder'.
-# 2. Navigate to the 'input_files/' folder.
+# 2. Navigate to the 'input_files/' folder. Make the folder if needed.
 # 3. Run this script on a single file by calling '../run_test.sh <file_num>'
 #    Make sure you are within the 'input_files/' folder when you run the command!
 #
