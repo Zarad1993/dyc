@@ -49,7 +49,7 @@ class BlankFormatter(string.Formatter):
         self.default = default
 
     def get_value(self, key, args, kwds):
-        """"""
+        """ """
         if isinstance(key, str):
             return kwds.get(key, self.default)
         else:
