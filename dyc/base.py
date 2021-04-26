@@ -6,10 +6,11 @@ from .utils import all_files_generator, get_file_lines, is_one_line_method, is_c
 
 
 class Builder(object):
-    def __init__(self, filename, config, placeholders=False):
+    def __init__(self, filename, config, placeholders=False, skip_confirm=False):
         self.filename = filename
         self.config = config
         self.placeholders = placeholders
+        self.skip_confirm = skip_confirm
 
     details = dict()
 
@@ -35,7 +36,7 @@ class Builder(object):
                 word.lstrip() for word in line.split(" ") if word.lstrip() in keywords
             ]
             found = len(foundList) > 0 and not is_comment(
-                line, self.config.get('comments')
+                line, self.config.get("comments")
             )
             # Checking an unusual format in method declaration
             if foundList:

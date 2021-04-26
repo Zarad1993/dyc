@@ -32,10 +32,11 @@ def main(config):
 
 
 @main.command()
-@click.option('--placeholders', is_flag=True, default=False)
-@click.argument('files', nargs=-1, type=click.Path(exists=True), required=False)
+@click.option("--placeholders", is_flag=True, default=False)
+@click.argument("files", nargs=-1, type=click.Path(exists=True), required=False)
+@click.option("--skip-confirm", required=False, default=False, is_flag=True)
 @config
-def start(config, files, placeholders):
+def start(config, files, placeholders, skip_confirm):
     """
     This is the entry point of starting DYC for the whole project.
     When you run `dyc start`. ParsedConfig will wrap all the
@@ -43,16 +44,17 @@ def start(config, files, placeholders):
     over and add missing documentation on.
     """
     if files:
-        config.plain['file_list'] = list(files)
-    dyc = DYC(config.plain, placeholders=placeholders)
+        config.plain["file_list"] = list(files)
+    dyc = DYC(config.plain, placeholders=placeholders, skip_confirm=skip_confirm)
     dyc.prepare()
     dyc.process_methods()
     dyc.process_top()
+    dyc.process_classes()
 
 
 @main.command()
 @click.option(
-    '--watch', help='Add default placeholder when watching', is_flag=True, default=False
+    "--watch", help="Add default placeholder when watching", is_flag=True, default=False
 )
 @config
 def diff(config, watch):
@@ -64,7 +66,7 @@ def diff(config, watch):
     else:
         diff = Diff(config.plain)
         uncommitted = diff.uncommitted
-        paths = [idx.get('path') for idx in uncommitted]
+        paths = [idx.get("path") for idx in uncommitted]
         if len(uncommitted):
             dyc = DYC(config.plain)
             dyc.prepare(files=paths)

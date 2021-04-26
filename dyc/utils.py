@@ -49,7 +49,7 @@ class BlankFormatter(string.Formatter):
         self.default = default
 
     def get_value(self, key, args, kwds):
-        """"""
+        """ """
         if isinstance(key, str):
             return kwds.get(key, self.default)
         else:
@@ -186,4 +186,4 @@ def is_comment(line, comments):
     str line: The line string in a file
     list comments: A list of potential comment keywords
     """
-    return line.lstrip(' ')[0] in comments
+    return line.lstrip(" ")[0] in comments

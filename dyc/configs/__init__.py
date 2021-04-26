@@ -2,8 +2,8 @@ import os
 from ..utils import read_yaml
 
 ROOT_PATH = os.getcwd()
-DEFAULT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'defaults.yaml')
-CUSTOM = os.path.join(ROOT_PATH, 'dyc.yaml')
+DEFAULT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "defaults.yaml")
+CUSTOM = os.path.join(ROOT_PATH, "dyc.yaml")
 
 
 class Config(object):
@@ -31,27 +31,27 @@ class Config(object):
         Loops over the formats i.e `py`, `js`. And assigns the given customized values
         in Root dyc.yaml file. Otherwise it will use the default values
         """
-        formats = self.custom.get('formats', [])
+        formats = self.custom.get("formats", [])
         for index, value in enumerate(formats):
-            extension = value.get('extension')
+            extension = value.get("extension")
             cnf_index = self._get_custom_extension_index(extension)
             try:
                 for nested_key, nested_obj in value.iteritems():
                     try:
-                        self.plain.get('formats')[cnf_index][nested_key].update(
+                        self.plain.get("formats")[cnf_index][nested_key].update(
                             **nested_obj
                         ) if nested_obj else None
                     except AttributeError:
                         continue
             except (IndexError, TypeError):
-                self.plain.get('formats').append(value)
+                self.plain.get("formats").append(value)
 
     def _get_custom_extension_index(self, extension):
         """
         If a customised extension is defined. Add that to the config
         """
-        for index, value in enumerate(self.plain.get('formats')):
-            if value.get('extension') == extension:
+        for index, value in enumerate(self.plain.get("formats")):
+            if value.get("extension") == extension:
                 return index
 
     def _is_mutated(self, value):

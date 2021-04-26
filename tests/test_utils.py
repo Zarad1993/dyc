@@ -17,15 +17,15 @@ class TestGetLeadingWhitespace:
 
         """
         """Test tabs functionality"""
-        text = '\t\tHello'
-        expected = '\t\t'
+        text = "\t\tHello"
+        expected = "\t\t"
         got = get_leading_whitespace(text)
         assert expected == got
 
     def test_whitespace(self):
         """Test whitespace functionality"""
-        space = '                '
-        text = '{space}Such a long whitespace'.format(space=space)
+        space = "                "
+        text = "{space}Such a long whitespace".format(space=space)
         expected = space
         got = get_leading_whitespace(text)
         assert expected == got
@@ -40,7 +40,7 @@ class TestReadYaml:
         ----------
 
         """
-        random_path = '/path/to/non/existing/file.yaml'
+        random_path = "/path/to/non/existing/file.yaml"
         expected = None
         got = read_yaml(random_path)
         assert expected == got
@@ -55,7 +55,7 @@ class TestGetIndent:
         ----------
 
         """
-        assert get_indent('tab') == '\t'
+        assert get_indent("tab") == "\t"
 
     def test_2_spaces(self):
         """
@@ -65,7 +65,7 @@ class TestGetIndent:
         ----------
 
         """
-        assert get_indent('2 spaces') == '  '
+        assert get_indent("2 spaces") == "  "
 
     def test_falsy_value(self):
         """
@@ -75,7 +75,7 @@ class TestGetIndent:
         ----------
 
         """
-        assert get_indent(False) == ''
+        assert get_indent(False) == ""
 
     def test_default_4_spaces(self):
         """
@@ -86,7 +86,7 @@ class TestGetIndent:
         ----------
 
         """
-        assert get_indent(None) == '    '
+        assert get_indent(None) == "    "
 
 
 class TestGetExtension:
@@ -98,8 +98,8 @@ class TestGetExtension:
         ----------
 
         """
-        ext = 'file.puk'
-        expected = 'puk'
+        ext = "file.puk"
+        expected = "puk"
         got = get_extension(ext)
         assert expected == got
 
@@ -112,8 +112,8 @@ class TestGetExtension:
         ----------
 
         """
-        ext = 'file'
-        expected = ''
+        ext = "file"
+        expected = ""
         got = get_extension(ext)
         assert expected == got
 
@@ -127,7 +127,7 @@ class TestGetExtension:
 
         """
         exts = [dict(), False, True, [], 123]
-        expected = ''
+        expected = ""
         for ext in exts:
             got = get_extension(ext)
             assert expected == got
@@ -136,10 +136,10 @@ class TestGetExtension:
 class TestIsComment:
     def test_valid_comments(self):
         """Testing valid comments"""
-        text = '# Hello World'
-        assert is_comment(text, ['#']) == True
+        text = "# Hello World"
+        assert is_comment(text, ["#"]) == True
 
     def test_invalid_comments(self):
         """Testing invalid comments"""
-        text = '# Hello World'
-        assert is_comment(text, ['//']) == False
+        text = "# Hello World"
+        assert is_comment(text, ["//"]) == False

@@ -51,13 +51,16 @@ To run on a Git Diff patch. Run
 $  dyc diff
 ```
 
-
 To have Docstrings prepended on a method while development.
 Run the following command
 ```sh
 $ dyc diff --watch
 ```
 
+In order to bypass the text editor pop-up in the confirmation stage. Run
+```sh
+$ dyc start --skip-confirm
+```
 ## Method Docstring Options
 
 *You can also Setup your own customized Docstring Method Formatting in `dyc.yaml` within `formats` key*
@@ -93,15 +96,47 @@ $ dyc diff --watch
 |   `ignore`      |              Arguments to ignore.                 | list  |
 |   `prefix`      |            A prefix like "@param".                |  str  |
 
+<br/>
+
 ## Classes Docstring Options
 
-// TODO
+*You can also Setup your own customized Docstring Class Formatting in `dyc.yaml` within `formats` key*
+
+
+*Class*
+
+|          Key                |                                                       Description                                                           | Type |
+|:-----------------------:    |:-----------------------------------------------------------------------------------------------------------------------:    |------|
+|        `keywords`           |                            The necessary keyword to search for in a line that triggers actions (default = ["class"])        | list |
+|        `enabled`            |                                   Determine if formatting is enabled for the extension                                      | bool |
+|         `indent`            |                         Indentation in a class. Limited options ['tab', '2 spaces', '4 spaces']                             | str  |
+|     `indent_content`        |                              Confirm if the content of a docstring has to be indented as well                               | bool |
+|          `open`             |                                             Starting opener text of a method                                                | str  |
+|         `close`             | Close text of a class. This could be the same as opened, but not all languages opening and closing docstrings are same      | str  |
+|        `comments`           |                                                        Comments symbols                                                     | str  |
+|    `break_after_open`       |                             Do we add a new line after adding the open strings of a class?                                  | bool |
+| `break_after_docstring`     |                                     Do we add a new line after adding the docstring?                                        | bool |
+|   `break_before_close`      |                                   Add a new line before closing docstrings on a class                                       | bool |
+|     `words_per_line`        |                                         How many words do we add per docstring?                                             | int  |
+|      `within_scope`         |              Should the docstring be within the scope of the class or out? Just like JS Method docstrings                   | bool |
+
+
+*Parents*
+
+|    Key          |                  Description                       | Type  |
+|:-----------:    |:---------------------------------------------:     |:----: |
+|   `title`       |    A title for arguments. i.e: "Inheritance"       |  str  |
+| `underline`     |              Underline the title                   | bool  |
+|   `inline`      |   Add docstrings all inline or break within.       | bool  |
+|   `prefix`      |            A prefix like "@parent".                |  str  |
+
+<br/>
 
 ## Top of file Options
 
 // TODO
 
-### Example
+## Example
 
 ```sh
 $ cd myapp/
@@ -260,6 +295,8 @@ def hello(name):
 
 ## Development
 
+### Setup
+
 Thank you for taking the time to contribute into this project. It is simple but could be really helpful moving forward to all developers.
 
 To get started.
@@ -272,7 +309,6 @@ To get started.
 ```sh
 $ pip install --editable .
 ```
-
 
 Before commiting:
 

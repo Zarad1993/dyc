@@ -21,5 +21,5 @@ setup(
         "pre-commit==1.18.1",
     ],
     entry_points={"console_scripts": ["dyc=dyc.dyc:main"]},
-    package_data={'': ['*.yaml']},
+    package_data={"": ["*.yaml"]},
 )

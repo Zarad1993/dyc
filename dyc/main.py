@@ -9,13 +9,15 @@ import click
 from .utils import get_extension
 from .methods import MethodBuilder
 from .top import TopBuilder
+from .classes import ClassBuilder
 from .base import Processor
 
 
 class DYC(Processor):
-    def __init__(self, config, details=None, placeholders=False):
+    def __init__(self, config, details=None, placeholders=False, skip_confirm=False):
         self.config = config
         self.placeholders = placeholders
+        self.skip_confirm = skip_confirm
 
     def process_methods(self, diff_only=False, changes=[]):
         """
@@ -45,7 +47,10 @@ class DYC(Processor):
             method_cnf = fmt.get("method", {})
             method_cnf["arguments"] = fmt.get("arguments")
             builder = MethodBuilder(
-                filename, method_cnf, placeholders=self.placeholders
+                filename,
+                method_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
             )
             builder.initialize(change=change)
             builder.prompts()
@@ -54,10 +59,24 @@ class DYC(Processor):
 
     def process_classes(self):
         """
-        Main method that documents Classes in a file. Still TODO
+        Main method that documents Classes in a file.
         """
-        # self.classes = ClassesBuilder()
-        pass
+        print("\nProcessing Classes\n\r")
+        for filename in self.file_list:
+            extension = get_extension(filename)
+            fmt = self.formats.get(extension)
+            classes_cnf = fmt.get("class", {})
+            classes_cnf["parents"] = fmt.get("parents")
+            builder = ClassBuilder(
+                filename,
+                classes_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
+            )
+            builder.initialize()
+            builder.prompts()
+            builder.apply()
+            builder.clear(filename)
 
     def process_top(self, diff_only=False):
         """
@@ -69,7 +88,12 @@ class DYC(Processor):
             extension = get_extension(filename)
             fmt = self.formats.get(extension)
             top_cnf = fmt.get("top", {})
-            builder = TopBuilder(filename, top_cnf, placeholders=self.placeholders)
+            builder = TopBuilder(
+                filename,
+                top_cnf,
+                placeholders=self.placeholders,
+                skip_confirm=self.skip_confirm,
+            )
             builder.prompts()
             builder.apply()
             builder.clear(filename)
