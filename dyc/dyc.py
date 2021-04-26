@@ -24,7 +24,7 @@ config = click.make_pass_decorator(ParsedConfig, ensure=True)
 def main(config):
     """
     The entering method to the CLI
-    Parameterss
+    Parameters
     ----------
     ConfigParser config: Config going to be used in DYC
     """

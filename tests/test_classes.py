@@ -4,8 +4,11 @@ from dyc.classes import (
     ClassInterface,
     ClassFormatter,
 )
+from dyc.utils import get_extension
+from dyc.dyc import start
 import click
 from click.testing import CliRunner
+import pytest
 
 
 class TestClassInterface:
@@ -20,6 +23,7 @@ class TestClassInterface:
             return
 
         runn = CliRunner()
+        # input = ["N", "y", "y", "Class 1 Descritposf"]
         result = runn.invoke(runner, input="test")
         assert result.output.split("\n")[2] == "test"
 
@@ -73,3 +77,31 @@ class TestClassBuilder:
         )
         assert builder.extract_classes("class test(x,y,z)") == ["x", "y", "z"]
         assert builder.extract_classes("class test:") == []
+
+    @pytest.mark.parametrize("filename", ["tests/test_case_files/class_test_1.py"])
+    def testProcess(self, filename):
+        # Get oracle file from the filename of the input file
+        oracle_file = filename.split(".")[0] + "_correct.py"
+
+        # Save original contents of test file to a string to rewrite later
+        with open(filename, "r") as file_obj:
+            test_file_orig_contents = file_obj.read()
+
+        # Save the user input
+        user_input_file = filename.split(".")[0] + ".in"
+        with open(user_input_file, "r") as user_input_obj:
+            user_input = user_input_obj.read()
+
+        runner = CliRunner()
+        result = runner.invoke(start, ["--skip-confirm", filename], input=user_input)
+
+        # Compare to Oracle
+        with open(filename, "r") as file_obj, open(oracle_file, "r") as oracle_obj:
+            # Replace dumb whitespace
+            assert file_obj.read().replace(" ", "") == oracle_obj.read().replace(
+                " ", ""
+            )
+
+        # Write back original contents
+        with open(filename, "w") as file_obj:
+            file_obj.write(test_file_orig_contents)
